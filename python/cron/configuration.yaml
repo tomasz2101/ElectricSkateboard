@@ -1,0 +1,17 @@
+jobs:
+    - wday        : [0,1,2,3,4,5,6]
+      hour        : "*"
+      minute      : "*"
+      name        : print_time
+      description : test description
+      logging     : true
+      comments: >
+        Check method cron job
+    - wday        : [0,1,2,3,4,5,6]
+      hour        : "*"
+      minute      : [0,10,20,30,40,50]
+      name        : print_time_1
+      description : test description
+      logging     : true
+      comments: >
+        Check method cron job
