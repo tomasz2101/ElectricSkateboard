@@ -1,46 +1,37 @@
-#!/usr/bin/env python3
-"""
-demo of basic Bluetooth device scanning/discovery
-Michael Hirsch
+#!/usr/bin/env python
 
-http://blog.kevindoran.co/bluetooth-programming-with-python-3/
-https://github.com/karulis/pybluez
-"""
-import bluetooth as bt
-from bluetooth.ble import DiscoveryService
+# esc_start.py
+# 2015-04-14
+# Public Domain
+#
+# Sends the servo pulses needed to initialise some ESCs
+#
+# Requires the pigpio daemon to be running
+#
+# sudo pigpiod
 
+import time
 
-def bluetooth_classic_scan(timeout=10):
-    """
-    This scan finds ONLY Bluetooth (non-BLE) devices in pairing mode
-    """
-    devs = bt.discover_devices(duration=scansec, flush_cache=True, lookup_names=True )
+import pigpio
 
-    print('found {} Bluetooth (non-BLE) devices in pairing mode:'.format(len(devs)))
+SERVO = 4
 
-    if devs:
-        for u,n in devs.items():
-            print('{}   {}'.format(u,n))
+pi = pigpio.pi()  # Connect to local Pi.
+pi.set_servo_pulsewidth(SERVO, 1000)  # Minimum throttle.
+time.sleep(5)
 
-    return devs
+pi.set_servo_pulsewidth(SERVO, 1000)  # Minimum throttle.
 
+time.sleep(1)
 
-def bluetooth_low_energy_scan(timeout=10):
-    svc = DiscoveryService()
-    devs = svc.discover(timeout)
+pi.set_servo_pulsewidth(SERVO, 1500)  # Maximum throttle.
 
-    print('found {} Bluetooth Low Energy (Smart) devices:'.format(len(devs)))
+time.sleep(100)
 
-    if devs:
-        for u,n in devs.items():
-            print('{}   {}'.format(u,n))
+pi.set_servo_pulsewidth(SERVO, 1100)  # Slightly open throttle.
 
-    return devs
+time.sleep(1)
 
+pi.set_servo_pulsewidth(SERVO, 0)  # Stop servo pulses.
 
-if __name__ == '__main__':
-    scansec = 5 #how long to scan for (seconds)
-
-    bluetooth_classic_scan(scansec)
-
-    bluetooth_low_energy_scan(scansec)
+pi.stop()  # Disconnect from local Raspberry Pi.
