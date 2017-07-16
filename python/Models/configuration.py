@@ -1,20 +1,3 @@
-deviceParameters = {
-            "idx",
-            "Status",
-            "Level",
-            "LastUpdate",
-            "Data",
-            "Barometer",
-            "BatteryLevel",
-            "ForecastStr",
-            "HardwareName",
-            "Humidity",
-            "Name",
-            "Temp",
-            "Type",
-            "SubType",
-            "SwitchType"
-        }
-configurationMCP = {
-    "lightBigRoomOverBed": 1
-}
+wiimote_address = '00:24:1E:A8:47:5F'
+motor = 4
+

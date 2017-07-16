@@ -27,7 +27,7 @@ time.sleep(1)
 # then quit.
 try:
     # start wii remote controll
-    wii = cwiid.Wiimote()
+    wii = cwiid.Wiimote(bdaddr='00:24:1E:A8:47:5F')
     print('Wii Remote connected...\n')
     print('Press some buttons!\n')
     print('Press PLUS and MINUS together to disconnect and quit.\n')
