@@ -7,13 +7,23 @@ is_debug = "debug" in sys.argv
 
 
 def main():
-    pprint(is_debug)
+    message = 'Starting main program'
+    if is_debug:
+        message += ' with debugging'
+    print(message)
     skate = ClassSkateboard()
     skate.connect_wii()
+
+    # Wiimote checker thread
+    checker = SkateboardWatcher()
+    checker.daemon = True
+    checker.start()
     try:
         skate.run_process()
     except KeyboardInterrupt:
         raise
+    except Exception as e:
+        print(e)
 
 
 if __name__ == "__main__":
