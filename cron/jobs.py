@@ -23,7 +23,7 @@ def execute_thread(method_to_run):
 
 if __name__ == "__main__":
     print("start")
-    with open('/home/pi/ElectricSkateboard/python/cron/configuration.yaml', 'r') as f:
+    with open('/home/pi/electricSkateboard/python/cron/configuration.yaml', 'r') as f:
         doc = yaml.load(f)
     for job in doc["jobs"]:
         now = time.localtime()

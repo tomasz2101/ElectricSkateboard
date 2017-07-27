@@ -4,7 +4,7 @@ import RPi.GPIO as GPIO
 import subprocess
 import sys
 
-sys.path.append('/home/pi/ElectricSkateboard/python/Models')
+sys.path.append('/home/pi/electricSkateboard/python/Models')
 import configuration
 
 file = Path("/home/pi/logs/start_up_" + strftime("%Y_%m_%d", gmtime()) + ".txt")
@@ -27,7 +27,7 @@ def main():
 
 def run_main():
     try:
-        subprocess.call(["python", "main.py"], cwd="/home/pi/ElectricSkateboard/python")
+        subprocess.call(["python", "main.py"], cwd="/home/pi/electricSkateboard/python")
     except OSError as e:
         debug_write(15, "python main.py: " + str(e))
 
