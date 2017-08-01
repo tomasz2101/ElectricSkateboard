@@ -16,10 +16,20 @@ Requirements:
     2.1. If not using PiBakery:<br/>
     `sudo apt-get update`<br/>
     `sudo apt-get upgrade`<br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.1.3. sudo /etc/init.d/ssh start<br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.1.4. sudo dpkg --configure -a<br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.1.4. (sudo crontab -l ; echo "@reboot python /home/pi/electricSkateboard/cron/reboot.py") | sudo crontab -
+    `sudo /etc/init.d/ssh start`<br/>
+    `sudo dpkg --configure -a`<br/>
+    `sudo raspi-config --expand-rootfs`<br/>
+    `sudo systemctl stop serial-getty@ttyAMA0.service`<br/>
+    `sudo systemctl disable serial-getty@ttyAMA0.service`<br/>
+    `sudo apt-get install screen`<br/>
+    `sudo apt-get install -y python3`<br/>
+    `sudo apt-get install -y python3-rpi.gpio`<br/>
+    `sudo apt-get install git-core`<br/>
+    `sudo apt-get install git`<br/>
+    `sudo apt-get autoremove`<br/>
+    `sudo apt-get autoclean`<br/>
+    `(sudo crontab -l ; echo "@reboot python /home/pi/electricSkateboard/cron/reboot.py") | sudo crontab -`<br/>
     2.2. If using PiBakery:<br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2.1. sudo apt-get update<br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2.2. sudo apt-get upgrade<br/>
+    `sudo apt-get update`<br/>
+    `sudo apt-get upgrade`<br/>
             
