@@ -16,6 +16,7 @@ def main():
 
     try:
         subprocess.Popen(["sudo", "python", "start_up.py"], stdout=subprocess.PIPE)
+        subprocess.call(["sudo", "python", "main.py"], cwd="/home/pi/electricSkateboard")
         log_write(19, "sudo python start_up.py executed")
     except OSError as e:
         debug_write(21, "sudo python start_up.py failed: " + str(e))
@@ -34,5 +35,4 @@ def debug_write(line, text):
     debug.open("a").write(u"" + get_time() + "|reboot.py|" + str(line) + "|" + text + "\n")
 
 
-if __name__ == "__main__":
-    main()
+main()

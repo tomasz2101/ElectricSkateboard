@@ -19,6 +19,7 @@ Requirements:
     `sudo /etc/init.d/ssh start`<br/>
     `sudo dpkg --configure -a`<br/>
     `sudo raspi-config --expand-rootfs`<br/>
+    `sudo raspi-config` --> enable I2C </br>
     `sudo systemctl stop serial-getty@ttyAMA0.service`<br/>
     `sudo systemctl disable serial-getty@ttyAMA0.service`<br/>
     `sudo apt-get install screen`<br/>
@@ -28,6 +29,7 @@ Requirements:
     `sudo apt-get install git`<br/>
     `sudo apt-get autoremove`<br/>
     `sudo apt-get autoclean`<br/>
+    `git clone https://github.com/tomasz2101/ElectricSkateboard`<br/>
     `(sudo crontab -l ; echo "@reboot python /home/pi/electricSkateboard/cron/reboot.py") | sudo crontab -`<br/>
     2.2. If using PiBakery:<br/>
     `sudo apt-get update`<br/>

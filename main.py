@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from Models.skateboard import *
+from models.skateboard import *
 from pprint import pprint
 import sys
 
