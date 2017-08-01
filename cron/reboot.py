@@ -15,8 +15,8 @@ def main():
         debug_write(15, "sudo pigpiod failed: " + str(e))
 
     try:
-        subprocess.Popen(["sudo", "python", "start_up.py"], stdout=subprocess.PIPE)
-        subprocess.call(["sudo", "python", "main.py"], cwd="/home/pi/electricSkateboard")
+        # subprocess.Popen(["sudo", "python", "start_up.py"], stdout=subprocess.PIPE)
+        subprocess.call(["sudo", "python", "main.py"], cwd="/home/pi/skateboard")
         log_write(19, "sudo python start_up.py executed")
     except OSError as e:
         debug_write(21, "sudo python start_up.py failed: " + str(e))

@@ -27,10 +27,13 @@ Requirements:
     `sudo apt-get install -y python3-rpi.gpio`<br/>
     `sudo apt-get install git-core`<br/>
     `sudo apt-get install git`<br/>
+    `sudo apt-get install python-cwiid`<br/>
+    `sudo pip install pathlib`<br/>
+    `mkdir logs`<br/>
     `sudo apt-get autoremove`<br/>
     `sudo apt-get autoclean`<br/>
-    `git clone https://github.com/tomasz2101/ElectricSkateboard`<br/>
-    `(sudo crontab -l ; echo "@reboot python /home/pi/electricSkateboard/cron/reboot.py") | sudo crontab -`<br/>
+    `git clone https://github.com/tomasz2101/skateboard`<br/>
+    `(sudo crontab -l ; echo "@reboot python /home/pi/skateboard/cron/reboot.py") | sudo crontab -`<br/>
     2.2. If using PiBakery:<br/>
     `sudo apt-get update`<br/>
     `sudo apt-get upgrade`<br/>
