@@ -34,6 +34,7 @@ class ClassSkateboard(object):
         self.display = ClassLcd()
         self.display.lcd_clear()
         self.display.lcd_display_string("Skateboard init ...", 1)
+        self.wii_led = 0
 
     def connect_wii(self):
         connected = False
@@ -60,8 +61,14 @@ class ClassSkateboard(object):
                 time.sleep(delay)
 
     def wii_light(self, light1, light2, light3, light4):
-        translation = light1 * 8 + light2 * 4 + light3 * 2 + light4
+        translation = light4 * 8 + light3 * 4 + light2 * 2 + light1
+        print("test")
+        print(translation)
+        self.wii_led = translation
         self.wii.led = translation
+
+    def check_wii_light(self):
+        pprint(self.wii_led)
 
     def set_speed(self, speed_value):
         time.sleep(self.motor_accel_sleep)
@@ -69,8 +76,18 @@ class ClassSkateboard(object):
         self.speed = value
         pi.set_servo_pulsewidth(configuration.motor, value)
         print(value)
+        if value < 1100 and self.wii_led != 0:
+            self.wii_light(0, 0, 0, 0)
+        if 1100 < value < 1200 and self.wii_led != 1:
+            self.wii_light(1, 0, 0, 0)
+        if 1200 < value < 1300 and self.wii_led != 3:
+            self.wii_light(1, 1, 0, 0)
+        if 1300 < value < 1400 and self.wii_led != 7:
+            self.wii_light(1, 1, 1, 0)
+        if 1400 < value < 1500 and self.wii_led != 15:
+            self.wii_light(1, 1, 1, 1)
+
         if value % 10 == 0:
-            print("test")
             self.display.lcd_display_string("Speed setting ...", 1)
             self.display.lcd_display_string(str(value), 2)
 
