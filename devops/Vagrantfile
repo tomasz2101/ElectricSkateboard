@@ -1,0 +1,44 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+require 'yaml'
+
+current_dir    = File.dirname(File.expand_path(__FILE__))
+configs        = YAML.load_file("#{current_dir}/Vagrantfile.config.yaml")
+vagrant_config = configs['configs'][configs['configs']['use']]
+vagrant_ip = vagrant_config['vagrant_ip'];
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/ubuntu-16.04"
+  config.vm.synced_folder "./..", "/crm/src", type: "rsync", rsync__exclude: [".git", ".htaccess","devops/.vagrant", "devops/.docker", "configuration/local", "configuration/local.xml", "log", "files", "temp"]
+  config.vm.network "private_network", ip: vagrant_ip
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory  = 1024
+  end
+
+  config.vm.provision "docker"
+
+  config.vm.provision "docker_compose"
+
+  config.vm.provision "shell" do |s|
+    s.inline = "echo \"export VAGRANT_IP=$1\" >> /etc/profile"
+    s.args   = [vagrant_ip]
+  end
+
+  config.vm.provision "shell" do |s|
+    s.inline = "mkdir /crm/data; mkdir /crm/data/database; mkdir /crm/data/files; mkdir /crm/log; mkdir /crm/log/crm; mkdir /crm/log/apache2"
+  end
+
+  config.vm.provision "shell" do |s|
+    s.inline = "ln -s /vagrant /crm/src"
+  end
+
+  config.vm.provision "shell" do |s|
+    s.inline = "ln -s /crm/src/devops/config/devel /crm/config"
+  end
+
+  config.vm.provision "docker_compose", yml: "/crm/src/devops/docker-compose.devel.yml", run: "always"
+
+  config.ssh.insert_key = true
+end
