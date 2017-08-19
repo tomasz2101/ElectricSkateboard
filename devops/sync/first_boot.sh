@@ -11,7 +11,6 @@ BLUE='\033[0;34m' # blue color
 YELLOW='\033[0;33m' # yellow color
 
 echo -e "${GREEN}Executing first boot...${NC}"
-echo -e "adfadf"
 sleep 1
 if [ $# -eq 0 ]
   then
@@ -20,22 +19,24 @@ fi
 # to install each command needs word "true" before e.g. "true apt-get update -y"
 declare -a commandsToExecute=(
   #update & upgrade
-  "apt-get update -y" 
-  "apt-get upgrade -y"
-  "apt-get dist-upgrade -y"
+  "sudo apt-get update -y"
+#  "sudo apt-get upgrade -y"
+#  "sudo apt-get dist-upgrade -y"
   # install packages
-  "true apt-get install -y git"
-  "apt-get install -y build-essential"
-  "apt-get install -y python"
-  "apt-get install -y python-dev"
-  "apt-get install -y python-pip"
-  "apt-get install -y python-virtualenv"
+  "sudo apt-get install -y git"
+  "sudo apt-get install -y build-essential"
+  "sudo apt-get install -y python3"
+  "sudo apt-get install -y python3-rpi.gpio"
+  "sudo apt-get install -y python-dev"
+  "sudo apt-get install -y python-pip"
+  "sudo apt-get install -y python-virtualenv"
+  "sudo apt-get install -y python-cwiid"
+  "sudo pip install pathlib"
+  "sudo mkdir /log"
   )
 for (( i=0; i<${#commandsToExecute[@]}; i++ )); do
-  if  [[ ${commandsToExecute[$i]} == true* ]] ; then
-    echo -e "executing: ${GREEN}${commandsToExecute[$i]#* }${NC}"
-    eval ${commandsToExecute[$i]#* }
-  fi
+    echo -e "executing: ${GREEN}${commandsToExecute[$i]}${NC}"
+    eval ${commandsToExecute[$i]}
 done
 
 pidfile="./info.pid"

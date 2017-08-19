@@ -31,9 +31,9 @@ class ClassSkateboard(object):
         pi.set_PWM_frequency(configuration.motor, self.motor_frequency)
         self.speed = self.motor_speed_min
         self.wii = False
-        self.display = ClassLcd()
-        self.display.lcd_clear()
-        self.display.lcd_display_string("Skateboard init ...", 1)
+        # self.display = ClassLcd()
+        # self.display.lcd_clear()
+        # self.display.lcd_display_string("Skateboard init ...", 1)
         self.wii_led = 0
 
     def connect_wii(self):
@@ -41,8 +41,8 @@ class ClassSkateboard(object):
         while not connected:
             try:
                 self.wii = cwiid.Wiimote(bdaddr=configuration.wiimote_address)
-                self.display.lcd_clear()
-                self.display.lcd_display_string("Remote connecting ...", 1)
+                # self.display.lcd_clear()
+                # self.display.lcd_display_string("Remote connecting ...", 1)
                 # enable button reporting
                 self.wii.rpt_mode = cwiid.RPT_BTN
                 self.wii_vibration(0.2, 2)
@@ -87,9 +87,9 @@ class ClassSkateboard(object):
         if 1400 < value < 1500 and self.wii_led != 15:
             self.wii_light(1, 1, 1, 1)
 
-        if value % 10 == 0:
-            self.display.lcd_display_string("Speed setting ...", 1)
-            self.display.lcd_display_string(str(value), 2)
+        # if value % 10 == 0:
+        #     self.display.lcd_display_string("Speed setting ...", 1)
+        #     self.display.lcd_display_string(str(value), 2)
 
     def get_speed(self):
         return self.speed
@@ -114,8 +114,8 @@ class ClassSkateboard(object):
         value = max(min(accel_speed_value, self.motor_accel_sleep_max), self.motor_accel_sleep_min)
         self.motor_accel_sleep = value
         print(self.motor_accel_sleep)
-        self.display.lcd_display_string("Accel setting ...", 1)
-        self.display.lcd_display_string(str(self.motor_accel_sleep), 2)
+        # self.display.lcd_display_string("Accel setting ...", 1)
+        # self.display.lcd_display_string(str(self.motor_accel_sleep), 2)
         time.sleep(0.5)
 
     def run_process(self):

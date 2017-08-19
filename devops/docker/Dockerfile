@@ -2,49 +2,42 @@
 FROM debian:jessie
 MAINTAINER TW
 
-RUN mkdir /data
-# update
-RUN apt-get update
-# Install dependencies
-RUN apt-get install -y git
-RUN apt-get install -y build-essential
-RUN apt-get install -y gcc
-RUN apt-get install -y python
-RUN apt-get install -y nano
-RUN apt-get install -y python-dev
-RUN apt-get install -y supervisor
-RUN apt-get install -y python-pip
-RUN apt-get install -y python-virtualenv
-RUN apt-get install -y dos2unix
+RUN apt-get update && apt-get install -y \
+  git \
+  build-essential \
+  gcc \
+  python \
+  python-dev \
+  python-pip \
+  python-virtualenv \
+  supervisor \
+  vim
 RUN rm -rf /var/lib/apt/lists/*
-     
 
+RUN pip install pyserial
 
-# RUN pip install pyserial
-# RUN git clone git://git.drogon.net/wiringPi
-
-
-# RUN make 
-# RUN gcc
-#RUN cd wiringPi && ./build
+#RUN git clone git://git.drogon.net/wiringPi
+#WORKDIR wiringPi
+#RUN bash build
 #RUN pip install wiringpi2
 
-COPY ./sync /data
+RUN mkdir /electricSkateboard
 
 #supervisor configuration
 COPY ./run_once.script /etc/supervisor/runonce.sh
 RUN chmod +x /etc/supervisor/runonce.sh
 COPY ./supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
-
+#vim configuration
+COPY ./vim.rc /root/.vimrc
 
 # cron
 COPY ./crontabfile /tmp/crontabfile
-# RUN crontab /tmp/crontabfile
+#RUN crontab /tmp/crontabfile
 RUN rm -f /tmp/crontabfile
 
 # Define working directory
-WORKDIR /data
+WORKDIR /electricSkateboard
 #VOLUME /data
 
 CMD ["/usr/bin/supervisord"]

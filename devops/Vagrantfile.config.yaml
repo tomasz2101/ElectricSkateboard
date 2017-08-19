@@ -1,0 +1,4 @@
+configs:
+    use: 'default'
+    default:
+        vagrant_ip: '192.168.99.100'
