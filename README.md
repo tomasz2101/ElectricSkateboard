@@ -14,3 +14,5 @@ Requirements:
     1.3. Write system to SD card<br/>
 
 ![alt text](http://imageshack.com/a/img923/1881/lkH8oz.jpg)
+
+![image](http://imageshack.com/a/img923/1881/lkH8oz.jpg)
