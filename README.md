@@ -13,4 +13,4 @@ Requirements:
     1.2. Import configuration and change network SSID and password<br/>
     1.3. Write system to SD card<br/>
 
-            ![alt text](http://imageshack.com/a/img923/1881/lkH8oz.jpg)
+![alt text](http://imageshack.com/a/img923/1881/lkH8oz.jpg)
