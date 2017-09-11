@@ -12,6 +12,8 @@ YELLOW='\033[0;33m' # yellow color
 
 echo -e "${GREEN}Executing first boot...${NC}"
 sleep 1
+
+echo "tesT"
 if [ $# -eq 0 ]
   then
     echo -e "${RED}No arguments supplied -> test environment${NC}"
@@ -20,20 +22,22 @@ fi
 declare -a commandsToExecute=(
   #update & upgrade
   "sudo apt-get update -y"
-#  "sudo apt-get upgrade -y"
-#  "sudo apt-get dist-upgrade -y"
   # install packages
+  "sudo mkdir /skateboard"
+  "sudo mkdir /skateboard/log"
+  "sudo mkdir /skateboard/src"
+  "chown -R pi:pi /skateboard"
+  "sudo cp ./.ssh ~/.ssh"
   "sudo apt-get install -y git"
-  "sudo apt-get install -y build-essential"
-  "sudo apt-get install -y python3"
-  "sudo apt-get install -y python3-rpi.gpio"
-  "sudo apt-get install -y python-dev"
-  "sudo apt-get install -y python-pip"
-  "sudo apt-get install -y python-virtualenv"
-  "sudo apt-get install -y python-cwiid"
-  "sudo pip install pathlib"
-  "sudo mkdir /log"
+  "sudo apt-get install -y vim"
+  "sudo cp ./vim.rc ~/.vimrc"
+  "sudo git clone git@github.com:tomasz2101/skateboard.git /skateboard/src/"
   )
+
+#  this has to be executet as root user
+#    echo "dtparam=i2c_arm=on" >> /boot/config.txt
+
+
 for (( i=0; i<${#commandsToExecute[@]}; i++ )); do
     echo -e "executing: ${GREEN}${commandsToExecute[$i]}${NC}"
     eval ${commandsToExecute[$i]}

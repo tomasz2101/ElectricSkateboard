@@ -1,6 +1,0 @@
-#reboot cron services
-@reboot python /home/pi/skateboard/cron/reboot.py
-# main cron services
-*/1 * * * * python /home/pi/skateboard/cron/1m.py
-
-

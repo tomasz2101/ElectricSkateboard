@@ -11,17 +11,19 @@ RUN apt-get update && apt-get install -y \
   python-pip \
   python-virtualenv \
   supervisor \
-  vim
+  vim \
+  python-mysqldb
 RUN rm -rf /var/lib/apt/lists/*
 
 RUN pip install pyserial
+RUN pip install pathlib
 
 #RUN git clone git://git.drogon.net/wiringPi
 #WORKDIR wiringPi
 #RUN bash build
 #RUN pip install wiringpi2
 
-RUN mkdir /electricSkateboard
+RUN mkdir /skateboard
 
 #supervisor configuration
 COPY ./run_once.script /etc/supervisor/runonce.sh
@@ -32,12 +34,12 @@ COPY ./supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 COPY ./vim.rc /root/.vimrc
 
 # cron
-COPY ./crontabfile /tmp/crontabfile
+#COPY ../config/crontabfile /tmp/crontabfile
 #RUN crontab /tmp/crontabfile
-RUN rm -f /tmp/crontabfile
+#RUN rm -f /tmp/crontabfile
 
 # Define working directory
-WORKDIR /electricSkateboard
+WORKDIR /skateboard
 #VOLUME /data
 
 CMD ["/usr/bin/supervisord"]

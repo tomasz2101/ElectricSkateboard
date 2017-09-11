@@ -1,29 +1,37 @@
 from pathlib import Path
 from time import gmtime, strftime
 import subprocess
+import sys
+from pprint import pprint
 
-file = Path("/home/pi/logs/log_" + strftime("%Y_%m_%d", gmtime()) + ".txt")
+import os
+pprint(os.listdir("/skateboard/src/configuration"))
+
+sys.path.append("/skateboard/src/configuration")
+from configuration import *
+
+pprint(configuration)
+
+file = Path("/skateboard/log/cron_" + strftime("%Y_%m_%d", gmtime()) + ".txt")
 
 
 def main():
-    log_write(9, "main()")
+    log_write(12, "Starting " + configuration["environment"] + " mode.")
     try:
         subprocess.call(["sudo", "killall", "pigpiod"])
         subprocess.call(["sudo", "pigpiod"])
-        log_write(13, "sudo pigpiod executed")
+        log_write(16, "sudo pigpiod executed")
     except OSError as e:
-        debug_write(15, "sudo pigpiod failed: " + str(e))
-
+        debug_write(18, "sudo pigpiod failed: (" + configuration["environment"] + ") " + str(e))
     try:
-        # subprocess.Popen(["sudo", "python", "start_up.py"], stdout=subprocess.PIPE)
-        subprocess.call(["sudo", "python", "main.py"], cwd="/home/pi/skateboard")
-        log_write(19, "sudo python start_up.py executed")
+        subprocess.call(["python", "main.py"], cwd="/skateboard/src")
+        log_write(21, "sudo python start_up.py executed")
     except OSError as e:
-        debug_write(21, "sudo python start_up.py failed: " + str(e))
+        debug_write(23, "sudo python start_up.py failed: " + str(e))
 
 
 def get_time():
-    return strftime("%Y-%m-%d %H:%M:%S:", gmtime())
+    return strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
 
 def log_write(line, text):
@@ -31,7 +39,7 @@ def log_write(line, text):
 
 
 def debug_write(line, text):
-    debug = Path("/home/pi/logs/debug_" + strftime("%Y_%m_%d", gmtime()) + ".txt")
+    debug = Path("/skateboard/log/debug_" + strftime("%Y_%m_%d", gmtime()) + ".txt")
     debug.open("a").write(u"" + get_time() + "|reboot.py|" + str(line) + "|" + text + "\n")
 
 

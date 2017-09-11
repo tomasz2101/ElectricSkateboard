@@ -12,14 +12,17 @@ def main():
         message += ' with debugging'
     print(message)
     skate = ClassSkateboard()
-    skate.connect_wii()
-
-    # Wiimote checker thread
-    checker = SkateboardWatcher()
-    checker.daemon = True
-    checker.start()
+    if configuration["environment"]["status"] == "production":
+        skate.connect_wii()
+        # Wiimote checker thread
+        checker = SkateboardWatcher()
+        checker.daemon = True
+        checker.start()
     try:
-        skate.run_process()
+        if configuration["environment"]["status"] == "production":
+            skate.read_wii_buttons()
+        else:
+            skate.read_console_input()
     except KeyboardInterrupt:
         raise
     except Exception as e:

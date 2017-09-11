@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="On explicit save action" serverName="192.168.1.102">
+  <component name="PublishConfigData" autoUpload="On explicit save action" serverName="192.168.1.101" showDifferentInSync="false" showNewOnTargetInSync="false">
     <serverData>
+      <paths name="192.168.1.101">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/skateboard/src" local="$PROJECT_DIR$" web="/skateboard" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="192.168.1.102">
         <serverdata>
           <mappings>
-            <mapping deploy="/skateboard" local="$PROJECT_DIR$" web="/skateboard" />
+            <mapping deploy="/skateboard/src" local="$PROJECT_DIR$" web="/skateboard" />
           </mappings>
         </serverdata>
       </paths>

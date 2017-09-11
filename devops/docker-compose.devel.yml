@@ -2,7 +2,7 @@ version: "2"
 
 services:
   linux:
-    build: ./docker-prod/.
+    build: ./docker-devel/.
     image: linux
     depends_on:
       - phpmyadmin

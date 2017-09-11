@@ -1,8 +1,10 @@
-import smbus
 import time
+import sys
+from i2c import *
 
-# LCD Address
-ADDRESS = 0x27
+sys.path.append("/skateboard/src/configuration")
+from configuration import *
+
 # commands
 LCD_CLEARDISPLAY = 0x01
 LCD_RETURNHOME = 0x02
@@ -44,21 +46,12 @@ Rw = 0b00000010  # Read/Write bit
 Rs = 0b00000001  # Register select bit
 
 
-class ClassI2cDevice:
-    def __init__(self, addr, port=1):
-        self.addr = addr
-        self.bus = smbus.SMBus(port)
-
-    # Write a single command
-    def write_cmd(self, cmd):
-        self.bus.write_byte(self.addr, cmd)
-        time.sleep(0.0001)
-
-
 class ClassLcd:
     # initializes objects and lcd
     def __init__(self):
-        self.lcd_device = ClassI2cDevice(ADDRESS)
+        self.lcd_device = ClassI2cDevice(configuration["lcd_display"]["address"])
+        self.lcd_device.check_connection()
+
         self.lcd_write(0x03)
         self.lcd_write(0x03)
         self.lcd_write(0x03)
