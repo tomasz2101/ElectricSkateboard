@@ -33,7 +33,7 @@ class ClassSkateboard(object):
     motor_accel_sleep_change = 0.005
 
     def __init__(self):
-        if configuration["environment"]["status"] == "production":
+        if configuration["led_strip"]["status"]:
             self.led_strip = ClassLed()
             self.led_strip.set_green(50)
         if configuration["environment"]["status"] == "production":

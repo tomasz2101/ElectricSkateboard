@@ -5,7 +5,7 @@ configuration = {
         "gpio": True,
     },
     "lcd_display": {
-        "status": True,
+        "status": False,
         "address": 0x27
     },
     "motor": {
@@ -13,7 +13,7 @@ configuration = {
         "pin": 4
     },
     "led_strip": {
-        "status": True,
+        "status": False,
         "pin_blue": 20,
         "pin_red": 21,
         "pin_green": 22,
@@ -30,7 +30,7 @@ configuration = {
         "address": "00:24:1E:A8:47:5F"
     },
     "battery_meter": {
-        "status": True,
+        "status": False,
         "reference_voltage": 4.38,
         "max_value": 255,
         "modules": {
