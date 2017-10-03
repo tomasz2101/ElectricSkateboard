@@ -173,7 +173,7 @@ class ClassSkateboard(object):
 
 
 class SkateboardWatcher(threading.Thread):
-    ping_bluetooth = ["sudo", "l2ping", "-c", "1", "-t", "1", configuration["wiimote_address"]]
+    ping_bluetooth = ["sudo", "l2ping", "-c", "1", "-t", "1", configuration["wii_remote"]["address"]]
     power_down = ["sudo", "shutdown", "now"]
 
     def run(self):
