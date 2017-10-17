@@ -22,7 +22,7 @@ services:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_USER=tw
       - MYSQL_PASSWORD=test
-      - MYSQL_DATABASE=dbdatabase
+      - MYSQL_DATABASE=skateboard
     ports:
       - 3306:3306
 
@@ -32,7 +32,7 @@ services:
     volumes:
       - /sessions
     ports:
-      - 8090:80
+      - 85:80
     environment:
 #      - PMA_ARBITRARY=1
       - TESTSUITE_PASSWORD=test

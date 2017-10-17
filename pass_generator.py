@@ -1,3 +1,4 @@
+#!python3
 from os import urandom
 from random import choice
 import sys
@@ -9,13 +10,13 @@ char_set = {'small': 'abcdefghijklmnopqrstuvwxyz',
             }
 
 
-def generate_pass(length=21):
+def generate_pass(password_length=21):
     """Function to generate a password"""
 
     password = []
 
-    while len(password) < length:
-        key = choice(char_set.keys())
+    while len(password) < int(password_length):
+        key = choice(list(char_set.keys()))
         a_char = urandom(1)
         if a_char in char_set[key]:
             if check_prev_char(password, char_set[key]):
@@ -45,5 +46,5 @@ if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1].isdigit():
         print(generate_pass(int(sys.argv[1])))
     else:
-        length = input('Give password length:  ')
-        print(generate_pass(length))
+        length_password = int(input('Give password length:  '))
+        print(generate_pass(length_password))

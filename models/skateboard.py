@@ -4,9 +4,10 @@ from pprint import pprint
 import threading
 import subprocess
 import sys
+import os
 
 
-sys.path.append("/skateboard/src/configuration")
+sys.path.append("/skateboard/src/configuration/")
 from configuration import *
 if configuration["environment"]["status"] == "production":
     import pigpio
@@ -36,7 +37,7 @@ class ClassSkateboard(object):
         if configuration["led_strip"]["status"]:
             self.led_strip = ClassLed()
             self.led_strip.set_green(50)
-        if configuration["environment"]["status"] == "production":
+        if configuration["motor"]["status"]:
             pi.set_PWM_frequency(configuration["motor"]["pin"], self.motor_frequency)
         self.speed = self.motor_speed_min
         self.speed_percentage = 0
