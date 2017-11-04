@@ -1,9 +1,5 @@
-import time
-import sys
 import RPi.GPIO as GPIO
-
-sys.path.append("/skateboard/src/configuration")
-from configuration import *
+import configuration
 
 
 class ClassLed:
@@ -13,9 +9,12 @@ class ClassLed:
         GPIO.setup(configuration["led_strip"]["pin_red"], GPIO.OUT)
         GPIO.setup(configuration["led_strip"]["pin_green"], GPIO.OUT)
 
-        self.blue = GPIO.PWM(configuration["led_strip"]["pin_blue"], configuration["led_strip"]["frequency_hz"])
-        self.red = GPIO.PWM(configuration["led_strip"]["pin_blue"], configuration["led_strip"]["frequency_hz"])
-        self.green = GPIO.PWM(configuration["led_strip"]["pin_blue"], configuration["led_strip"]["frequency_hz"])
+        self.blue = GPIO.PWM(configuration["led_strip"]["pin_blue"],
+                             configuration["led_strip"]["frequency_hz"])
+        self.red = GPIO.PWM(configuration["led_strip"]["pin_blue"],
+                            configuration["led_strip"]["frequency_hz"])
+        self.green = GPIO.PWM(configuration["led_strip"]["pin_blue"],
+                              configuration["led_strip"]["frequency_hz"])
 
         self.blue.start(0)
         self.red.start(0)

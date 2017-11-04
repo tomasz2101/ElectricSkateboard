@@ -4,16 +4,14 @@ from pprint import pprint
 import threading
 import subprocess
 import sys
-import os
+import configuration
 
-
-sys.path.append("/skateboard/src/configuration/")
-from configuration import *
 if configuration["environment"]["status"] == "production":
     import pigpio
     import cwiid
     from lcd import *
     from led import *
+
     pi = pigpio.pi()
 
 is_debug = "debug" in sys.argv
@@ -38,7 +36,8 @@ class ClassSkateboard(object):
             self.led_strip = ClassLed()
             self.led_strip.set_green(50)
         if configuration["motor"]["status"]:
-            pi.set_PWM_frequency(configuration["motor"]["pin"], self.motor_frequency)
+            pi.set_PWM_frequency(configuration["motor"]["pin"],
+                                 self.motor_frequency)
         self.speed = self.motor_speed_min
         self.speed_percentage = 0
         self.wii = False
@@ -53,7 +52,8 @@ class ClassSkateboard(object):
         connected = False
         while not connected:
             try:
-                self.wii = cwiid.Wiimote(bdaddr=configuration["wii_remote"]["address"])
+                address = configuration["wii_remote"]["address"]
+                self.wii = cwiid.Wiimote(bdaddr=address)
                 # enable button reporting
                 self.wii.rpt_mode = cwiid.RPT_BTN
                 self.wii_vibration(0.2, 2)
@@ -89,7 +89,8 @@ class ClassSkateboard(object):
 
     def set_speed(self, speed_value):
         time.sleep(self.motor_accel_sleep)
-        value = max(min(speed_value, self.motor_speed_max), self.motor_speed_min)
+        value = max(min(speed_value, self.motor_speed_max),
+                    self.motor_speed_min)
         self.speed = value
         pi.set_servo_pulsewidth(configuration["motor"]["pin"], value)
 
@@ -104,8 +105,10 @@ class ClassSkateboard(object):
         if 2400 <= value < 2500 and self.get_wii_light != 15:
             self.set_wii_light(1, 1, 1, 1)
         speed_percentage = int((value - self.motor_speed_min) /
-                               float(self.motor_speed_max - self.motor_speed_min) * 100)
-        if configuration["lcd_display"]["status"] and self.speed_percentage != speed_percentage:
+                               float(self.motor_speed_max -
+                                     self.motor_speed_min) * 100)
+        if configuration["lcd_display"]["status"] \
+                and self.speed_percentage != speed_percentage:
             self.display.lcd_clear()
             self.display.lcd_display_string("Speed setting ...", 1)
             self.display.lcd_display_string(str(speed_percentage), 2)
@@ -133,7 +136,8 @@ class ClassSkateboard(object):
         self.set_accel_sleep(accel_speed - self.motor_accel_sleep_change)
 
     def set_accel_sleep(self, accel_speed_value):
-        value = max(min(accel_speed_value, self.motor_accel_sleep_max), self.motor_accel_sleep_min)
+        value = max(min(accel_speed_value, self.motor_accel_sleep_max),
+                    self.motor_accel_sleep_min)
         self.motor_accel_sleep = value
         print(self.motor_accel_sleep)
         if configuration["lcd_display"]["status"]:
@@ -174,7 +178,13 @@ class ClassSkateboard(object):
 
 
 class SkateboardWatcher(threading.Thread):
-    ping_bluetooth = ["sudo", "l2ping", "-c", "1", "-t", "1", configuration["wii_remote"]["address"]]
+    ping_bluetooth = ["sudo",
+                      "l2ping",
+                      "-c",
+                      "1",
+                      "-t",
+                      "1",
+                      configuration["wii_remote"]["address"]]
     power_down = ["sudo", "shutdown", "now"]
 
     def run(self):
@@ -184,7 +194,8 @@ class SkateboardWatcher(threading.Thread):
             time.sleep(0.1)
 
     def try_comms(self):
-        command = subprocess.Popen(self.ping_bluetooth, stdout=subprocess.PIPE).communicate()[0]
+        command = subprocess.Popen(self.ping_bluetooth,
+                                   stdout=subprocess.PIPE).communicate()[0]
         return command
 
     def shutdown(self):

@@ -2,12 +2,13 @@ from time import gmtime, strftime, sleep
 from pathlib import Path
 import RPi.GPIO as GPIO
 import subprocess
-import sys
+# import sys
 
-sys.path.append('/home/pi/electricSkateboard/models')
+# sys.path.append('/home/pi/electricSkateboard/models')
 import configuration
 
-file = Path("/home/pi/logs/start_up_" + strftime("%Y_%m_%d", gmtime()) + ".txt")
+file = Path("/home/pi/logs/start_up_" +
+            strftime("%Y_%m_%d", gmtime()) + ".txt")
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(configuration.start_button, GPIO.IN)
@@ -28,7 +29,8 @@ def main():
 
 def run_main():
     try:
-        subprocess.call(["sudo", "python", "main.py"], cwd="/home/pi/electricSkateboard")
+        subprocess.call(["sudo", "python", "main.py"],
+                        cwd="/home/pi/electricSkateboard")
         log_write(32, "python main.py executed")
     except OSError as e:
         debug_write(34, "python main.py: " + str(e))
@@ -39,12 +41,15 @@ def get_time():
 
 
 def log_write(line, text):
-    file.open("a").write(u"" + get_time() + "|start_up.py|" + str(line) + "|" + text + "\n")
+    file.open("a").write(u"" + get_time() +
+                         "|start_up.py|" + str(line) + "|" + text + "\n")
 
 
 def debug_write(line, text):
-    debug = Path("/home/pi/logs/debug_" + strftime("%Y_%m_%d", gmtime()) + ".txt")
-    debug.open("a").write(u"" + get_time() + "|start_up.py|" + str(line) + "|" + text + "\n")
+    debug = Path("/home/pi/logs/debug_" +
+                 strftime("%Y_%m_%d", gmtime()) + ".txt")
+    debug.open("a").write(u"" + get_time() +
+                          "|start_up.py|" + str(line) + "|" + text + "\n")
 
 
 def show_ready_to_work():

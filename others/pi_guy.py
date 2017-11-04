@@ -1,7 +1,8 @@
 # skateboard.py
 # DIY Electric Skateboard
 # Created by Matthew Timmons-Brown, The Raspberry Pi Guy
-# Simon Beal assisted with the development of this program - if I die, it is his fault.
+# Simon Beal assisted with the development of
+# this program - if I die, it is his fault.
 
 import pigpio
 import time
@@ -74,7 +75,8 @@ class Skateboard(object):
             pi.write(led, 0)
             time.sleep(period)
 
-    # Toggles an Arduino that toggles the neopixels on the bottom of the electric skateboard
+    # Toggles an Arduino that toggles the
+    # neopixels on the bottom of the electric skateboard
     def arduino_trigger(self):
         if Skateboard.indicator_lights_on == 0:
             pi.write(lights_on, 1)
@@ -85,7 +87,8 @@ class Skateboard(object):
             pi.write(lights_on, 0)
             Skateboard.indicator_lights_on = 0
             self.wii.led = 0
-        time.sleep(0.5)  # Let's hope I don't activate this whilst on the board and die from this half second delay
+        time.sleep(0.5)  # Let's hope I don't activate
+        # this whilst on the board and die from this half second delay
 
     # Connects to Wiimote with specified mac address
     def connection_process(self):
@@ -107,7 +110,7 @@ class Skateboard(object):
     def run_process(self):
         global stop_val
         pi.write(led, 1)
-        while (stop_val == False):
+        while not stop_val:
             self.get_status()
             if self.status_button:
                 self.wii.rumble = 1
@@ -147,7 +150,13 @@ class Skateboard(object):
 class wiimote_watcher(threading.Thread):
     """ A wiimote checking thread class """
 
-    bluetooth_ping = ["sudo", "l2ping", "-c", "1", "-t", "1", wiimote_bluetooth]
+    bluetooth_ping = ["sudo",
+                      "l2ping",
+                      "-c",
+                      "1",
+                      "-t",
+                      "1",
+                      wiimote_bluetooth]
 
     def run(self):
         while True:
@@ -155,12 +164,14 @@ class wiimote_watcher(threading.Thread):
             time.sleep(0.1)
 
     def try_comms(self):
-        command = subprocess.Popen(wiimote_watcher.bluetooth_ping, stdout=subprocess.PIPE).communicate()[0]
+        command = subprocess.Popen(wiimote_watcher.bluetooth_ping,
+                                   stdout=subprocess.PIPE).communicate()[0]
         return command
 
     def motor_off(self):
         global stop_val
-        stop_val = True  # Causes main thread loop to stop working and speed to default
+        stop_val = True  # Causes main thread loop
+        # to stop working and speed to default
 
     def shutdown(self):
         self.motor_off()
@@ -172,11 +183,12 @@ class wiimote_watcher(threading.Thread):
 
     def wiimote_check(self):
         try:
-            output = self.try_comms()
+            output = self.try_comms()≈
             print
             output
             if (("100% loss") in output) or (
-                        output == ""):  # If 100% packets lost: wiimote died. If output is null: bluetooth dongle died
+                        output == ""):  # If 100% packets lost:
+                # wiimote died. If output is null: bluetooth dongle died
                 self.shutdown()
         except:
             self.shutdown()

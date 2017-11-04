@@ -1,9 +1,6 @@
 import time
-import sys
 from i2c import *
-
-sys.path.append("/skateboard/src/configuration")
-from configuration import *
+import configuration
 
 # commands
 LCD_CLEARDISPLAY = 0x01
@@ -11,7 +8,7 @@ LCD_RETURNHOME = 0x02
 LCD_ENTRYMODESET = 0x04
 LCD_DISPLAYCONTROL = 0x08
 LCD_CURSORSHIFT = 0x10
-LCD_FUNCTIONSET = 0x20
+LCD_FUNCSET = 0x20
 LCD_SETCGRAMADDR = 0x40
 LCD_SETDDRAMADDR = 0x80
 # flags for display entry mode
@@ -49,14 +46,15 @@ Rs = 0b00000001  # Register select bit
 class ClassLcd:
     # initializes objects and lcd
     def __init__(self):
-        self.lcd_device = ClassI2cDevice(configuration["lcd_display"]["address"])
+        address = configuration["lcd_display"]["address"]
+        self.lcd_device = ClassI2cDevice(address)
         self.lcd_device.check_connection()
 
         self.lcd_write(0x03)
         self.lcd_write(0x03)
         self.lcd_write(0x03)
         self.lcd_write(0x02)
-        self.lcd_write(LCD_FUNCTIONSET | LCD_2LINE | LCD_5x8DOTS | LCD_4BITMODE)
+        self.lcd_write(LCD_FUNCSET | LCD_2LINE | LCD_5x8DOTS | LCD_4BITMODE)
         self.lcd_write(LCD_DISPLAYCONTROL | LCD_DISPLAYON)
         self.lcd_write(LCD_CLEARDISPLAY)
         self.lcd_write(LCD_ENTRYMODESET | LCD_ENTRYLEFT)

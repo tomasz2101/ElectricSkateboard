@@ -1,8 +1,6 @@
 import smbus
-import sys
-
-sys.path.append("/skateboard/src/configuration")
-from configuration import *
+# import configuration
+import time
 
 
 class ClassI2cDevice:

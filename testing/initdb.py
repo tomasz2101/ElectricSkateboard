@@ -1,9 +1,7 @@
 #!/usr/bin/python
 import MySQLdb
 import sys
-
-sys.path.append("/skateboard/src/configuration/")
-from configuration import *
+import configuration
 
 if not configuration["database"]["status"]:
     sys.exit("Database init error")
@@ -37,7 +35,9 @@ sql = "CREATE TABLE `skateboard`.`users` ( " \
 cur.execute(sql)
 
 try:
-    cur.execute("INSERT INTO `variables` (`id`, `date`, `text`, `status`) VALUES (NULL, '2017-10-15', 'test', 'test');")
+    cur.execute("INSERT INTO `variables` (`id`, `date`, "
+                "`text`, `status`) VALUES "
+                "(NULL, '2017-10-15', 'test', 'test');")
     db.commit()
 except SystemError:
     db.rollback()
