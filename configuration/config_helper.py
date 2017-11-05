@@ -8,7 +8,12 @@ MOTOR = {
     "pin": 4,
     "max_speed": 2400,
     "min_speed": 1000,
-    "frequency": 50
+    "frequency": 50,
+    "speed_change": 1,
+    "accel_sleep": 0.015,
+    "accel_sleep_min": 0.005,
+    "accel_sleep_max": 0.1,
+    "accel_sleep_change": 0.1,
 }
 
 LED_STRIP = {

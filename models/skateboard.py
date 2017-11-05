@@ -16,23 +16,17 @@ stop_val = False
 
 
 class ClassSkateboard(object):
-    # skateboard constants
-    motor_speed_change = 1
-
-    motor_accel_sleep = 0.015
-    motor_accel_sleep_min = 0.005
-    motor_accel_sleep_max = 0.1
-    motor_accel_sleep_change = 0.005
-
     def __init__(self):
         if config.LED_STRIP["status"]:
             self.led_strip = ClassLed()
             self.led_strip.set_green(50)
+
         if config.MOTOR["status"]:
             pi.set_PWM_frequency(config.MOTOR["pin"],
                                  config.MOTOR["frequency"])
         self.speed = config.MOTOR["min_speed"]
         self.speed_percentage = 0
+        self.motor_accel_sleep = config.MOTOR["accel_sleep"]
         self.wii = False
         if config.LCD_DISPLAY["status"]:
             self.display = ClassLcd()
@@ -110,23 +104,23 @@ class ClassSkateboard(object):
 
     def increase_speed(self, decrease_delay):
         actual_speed = self.speed
-        self.set_speed(actual_speed + self.motor_speed_change, decrease_delay)
+        self.set_speed(actual_speed + config.MOTOR["speed_change"], decrease_delay)
 
     def decrease_speed(self, decrease_delay):
         actual_speed = self.speed
-        self.set_speed(actual_speed - self.motor_speed_change, decrease_delay)
+        self.set_speed(actual_speed - config.MOTOR["speed_change"], decrease_delay)
 
     def increase_accel_sleep(self):
         accel_speed = self.motor_accel_sleep
-        self.set_accel_sleep(accel_speed + self.motor_accel_sleep_change)
+        self.set_accel_sleep(accel_speed + config.MOTOR["accel_sleep_change"])
 
     def decrease_accel_sleep(self):
         accel_speed = self.motor_accel_sleep
-        self.set_accel_sleep(accel_speed - self.motor_accel_sleep_change)
+        self.set_accel_sleep(accel_speed - config.MOTOR["accel_sleep_change"])
 
     def set_accel_sleep(self, accel_speed_value):
-        value = max(min(accel_speed_value, self.motor_accel_sleep_max),
-                    self.motor_accel_sleep_min)
+        value = max(min(accel_speed_value, config.MOTOR["accel_sleep_max"]),
+                    config.MOTOR["accel_sleep_min"])
         self.motor_accel_sleep = value
         print(self.motor_accel_sleep)
         if config.LCD_DISPLAY["status"]:
@@ -150,13 +144,13 @@ class ClassSkateboard(object):
             if buttons & cwiid.BTN_B:
                 self.increase_speed(decrease_delay=3)
 
-            if buttons & cwiid.BTN_PLUS:
+                # if buttons & cwiid.BTN_PLUS:
                 # self.increase_accel_sleep()
-                self.led_strip.increase_green()
+                # self.led_strip.increase_green()
 
-            if buttons & cwiid.BTN_MINUS:
+                # if buttons & cwiid.BTN_MINUS:
                 # self.decrease_accel_sleep()
-                self.led_strip.decrease_green()
+                # self.led_strip.decrease_green()
 
     @staticmethod
     def read_console_input():
