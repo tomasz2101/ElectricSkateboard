@@ -2,3 +2,4 @@ RPi.GPIO
 MySQLdb
 pigpio
 cwiid
+smbus

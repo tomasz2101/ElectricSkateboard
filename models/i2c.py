@@ -1,5 +1,4 @@
 import smbus
-# import configuration
 import time
 
 

@@ -4,7 +4,7 @@ from pprint import pprint
 
 
 def test_configuration():
-    pprint(config_helper.MOTOR)
+    pprint("test")
 
 
 if __name__ == '__main__':

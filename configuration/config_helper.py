@@ -1,7 +1,13 @@
 ENVIRONMENT = "production"
+
 DEBUG = True
+
 I2C_MODULE = True
+
 GPIO_MODULE = True
+
+LOGGING_DIRECTORY = "/skateboard/log"
+PROGRAM_DIRECTORY = "/skateboard/src"
 
 MOTOR = {
     "status": True,

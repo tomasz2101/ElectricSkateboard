@@ -46,7 +46,9 @@ class ClassSkateboard(object):
                 connected = True
                 if config.LCD_DISPLAY["status"]:
                     self.display.lcd_clear()
-                    self.display.lcd_display_string(message="Remote connected ...", line=1)
+                    self.display.lcd_display_string(
+                        zmessage="Remote connected ...",
+                        line=1)
             except RuntimeError:
                 if config.DEBUG:
                     print("Error opening wiimote connection")
@@ -74,7 +76,6 @@ class ClassSkateboard(object):
 
     def set_speed(self, speed_value, decrease_delay):
         time.sleep(self.motor_accel_sleep / decrease_delay)
-        pprint(self.motor_accel_sleep / decrease_delay)
         value = max(min(speed_value, config.MOTOR["max_speed"]),
                     config.MOTOR["min_speed"])
         self.speed = value
@@ -97,8 +98,12 @@ class ClassSkateboard(object):
             print(speed_percentage)
             if config.LCD_DISPLAY["status"]:
                 self.display.lcd_clear()
-                self.display.lcd_display_string(message="Speed setting ...", line=1)
-                self.display.lcd_display_string(message=str(speed_percentage), line=2)
+                self.display.lcd_display_string(
+                    message="Speed setting ...",
+                    line=1)
+                self.display.lcd_display_string(
+                    message=str(speed_percentage),
+                    line=2)
         self.speed_percentage = speed_percentage
 
     def get_speed(self):
@@ -106,19 +111,25 @@ class ClassSkateboard(object):
 
     def increase_speed(self, decrease_delay):
         actual_speed = self.speed
-        self.set_speed(actual_speed + config.MOTOR["speed_change"], decrease_delay)
+        self.set_speed(
+            speed_value=actual_speed + config.MOTOR["speed_change"],
+            decrease_delay=decrease_delay)
 
     def decrease_speed(self, decrease_delay):
         actual_speed = self.speed
-        self.set_speed(actual_speed - config.MOTOR["speed_change"], decrease_delay)
+        self.set_speed(
+            speed_value=actual_speed - config.MOTOR["speed_change"],
+            decrease_delay=decrease_delay)
 
     def increase_accel_sleep(self):
         accel_speed = self.motor_accel_sleep
-        self.set_accel_sleep(accel_speed + config.MOTOR["accel_sleep_change"])
+        self.set_accel_sleep(
+            accel_speed_value=accel_speed + config.MOTOR["accel_sleep_change"])
 
     def decrease_accel_sleep(self):
         accel_speed = self.motor_accel_sleep
-        self.set_accel_sleep(accel_speed - config.MOTOR["accel_sleep_change"])
+        self.set_accel_sleep(
+            accel_speed_value=accel_speed - config.MOTOR["accel_sleep_change"])
 
     def set_accel_sleep(self, accel_speed_value):
         value = max(min(accel_speed_value, config.MOTOR["accel_sleep_max"]),
@@ -126,8 +137,12 @@ class ClassSkateboard(object):
         self.motor_accel_sleep = value
         print(self.motor_accel_sleep)
         if config.LCD_DISPLAY["status"]:
-            self.display.lcd_display_string("Accel setting ...", 1)
-            self.display.lcd_display_string(str(self.motor_accel_sleep), 2)
+            self.display.lcd_display_string(
+                message="Accel setting ...",
+                line=1)
+            self.display.lcd_display_string(
+                message=str(self.motor_accel_sleep),
+                line=2)
         time.sleep(0.1)
 
     def read_wii_buttons(self):

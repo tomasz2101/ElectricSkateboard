@@ -1,19 +1,13 @@
 from pathlib import Path
 from time import gmtime, strftime
 import subprocess
-import configuration
-# import sys
+import configuration.config_helper as config
+
 # from pprint import pprint
-
-# import os
-# pprint(os.listdir("/skateboard/src/configuration"))
-
-# sys.path.append("/skateboard/src/configuration")
-
-
 # pprint(configuration)
 
-file = Path("/skateboard/log/cron_" + strftime("%Y_%m_%d", gmtime()) + ".txt")
+file = Path(config.LOGGING_DIRECTORY + "/cron_" +
+            strftime("%Y_%m_%d", gmtime()) + ".txt")
 
 
 def main():
@@ -24,9 +18,9 @@ def main():
         # log_write(16, "sudo pigpiod executed")
     except OSError as e:
         debug_write(18, "sudo pigpiod failed: (" +
-                    configuration["environment"] + ") " + str(e))
+                    config.ENVIRONMENT + ") " + str(e))
     try:
-        subprocess.call(["python", "main.py"], cwd="/skateboard/src")
+        subprocess.call(["python", "main.py"], cwd=config.PROGRAM_DIRECTORY)
         # log_write(21, "sudo python start_up.py executed")
     except OSError as e:
         debug_write(23, "sudo python start_up.py failed: " + str(e))
@@ -42,10 +36,11 @@ def log_write(line, text):
 
 
 def debug_write(line, text):
-    debug = Path("/skateboard/log/debug_" +
+    debug = Path(config.LOGGING_DIRECTORY + "/debug_" +
                  strftime("%Y_%m_%d", gmtime()) + ".txt")
     debug.open("a").write(u"" + get_time() +
                           "|reboot.py|" + str(line) + "|" + text + "\n")
 
 
-main()
+if __name__ == "__main__":
+    main()

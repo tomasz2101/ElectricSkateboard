@@ -1,6 +1,6 @@
 import time
-from i2c import *
-import configuration
+import models.i2c as i2c
+import configuration.config_helper as config
 
 # commands
 LCD_CLEARDISPLAY = 0x01
@@ -46,50 +46,51 @@ Rs = 0b00000001  # Register select bit
 class ClassLcd:
     # initializes objects and lcd
     def __init__(self):
-        address = configuration["lcd_display"]["address"]
-        self.lcd_device = ClassI2cDevice(address)
+        self.lcd_device = i2c.ClassI2cDevice(
+            addr=config.LCD_DISPLAY["address"])
         self.lcd_device.check_connection()
 
-        self.lcd_write(0x03)
-        self.lcd_write(0x03)
-        self.lcd_write(0x03)
-        self.lcd_write(0x02)
-        self.lcd_write(LCD_FUNCSET | LCD_2LINE | LCD_5x8DOTS | LCD_4BITMODE)
-        self.lcd_write(LCD_DISPLAYCONTROL | LCD_DISPLAYON)
-        self.lcd_write(LCD_CLEARDISPLAY)
-        self.lcd_write(LCD_ENTRYMODESET | LCD_ENTRYLEFT)
+        self.lcd_write(cmd=0x03)
+        self.lcd_write(cmd=0x03)
+        self.lcd_write(cmd=0x03)
+        self.lcd_write(cmd=0x02)
+        self.lcd_write(
+            cmd=LCD_FUNCSET | LCD_2LINE | LCD_5x8DOTS | LCD_4BITMODE)
+        self.lcd_write(cmd=LCD_DISPLAYCONTROL | LCD_DISPLAYON)
+        self.lcd_write(cmd=LCD_CLEARDISPLAY)
+        self.lcd_write(cmd=LCD_ENTRYMODESET | LCD_ENTRYLEFT)
         time.sleep(0.2)
 
     # clocks EN to latch command
     def lcd_strobe(self, data):
-        self.lcd_device.write_cmd(data | En | LCD_BACKLIGHT)
+        self.lcd_device.write_cmd(cmd=data | En | LCD_BACKLIGHT)
         time.sleep(.0005)
-        self.lcd_device.write_cmd(((data & ~En) | LCD_BACKLIGHT))
+        self.lcd_device.write_cmd(cmd=((data & ~En) | LCD_BACKLIGHT))
         time.sleep(.0001)
 
     def lcd_write_four_bits(self, data):
-        self.lcd_device.write_cmd(data | LCD_BACKLIGHT)
-        self.lcd_strobe(data)
+        self.lcd_device.write_cmd(cmd=data | LCD_BACKLIGHT)
+        self.lcd_strobe(data=data)
 
     # write a command to lcd
     def lcd_write(self, cmd, mode=0):
-        self.lcd_write_four_bits(mode | (cmd & 0xF0))
-        self.lcd_write_four_bits(mode | ((cmd << 4) & 0xF0))
+        self.lcd_write_four_bits(data=mode | (cmd & 0xF0))
+        self.lcd_write_four_bits(data=mode | ((cmd << 4) & 0xF0))
 
     # put string function
     def lcd_display_string(self, message, line):
         if line == 1:
-            self.lcd_write(0x80)
+            self.lcd_write(cmd=0x80)
         if line == 2:
-            self.lcd_write(0xC0)
+            self.lcd_write(cmd=0xC0)
         if line == 3:
-            self.lcd_write(0x94)
+            self.lcd_write(cmd=0x94)
         if line == 4:
-            self.lcd_write(0xD4)
+            self.lcd_write(cmd=0xD4)
         for char in message:
-            self.lcd_write(ord(char), Rs)
+            self.lcd_write(cmd=ord(char), mode=Rs)
 
     # clear lcd and set to home
     def lcd_clear(self):
-        self.lcd_write(LCD_CLEARDISPLAY)
-        self.lcd_write(LCD_RETURNHOME)
+        self.lcd_write(cmd=LCD_CLEARDISPLAY)
+        self.lcd_write(cmd=LCD_RETURNHOME)

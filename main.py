@@ -2,9 +2,6 @@
 from models.skateboard import *
 import configuration.config_helper as config
 from pprint import pprint
-import sys
-
-is_debug = "debug" in sys.argv
 
 
 def main():
