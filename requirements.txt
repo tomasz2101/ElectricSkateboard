@@ -1,6 +1,19 @@
-RPi.GPIO
-MySQLdb
-pigpio
-cwiid
-smbus
-pytest
+# RPi.GPIO
+# MySQLdb
+# pigpio
+# cwiid
+# smbus
+doxypypy==0.8.8.6
+PyYAML==3.12
+requests==2.18.3
+GitPython==2.1.5
+plumbum==1.6.3
+jenkins-job-builder==1.6.2
+docker
+pylint==1.7.2
+pytest==3.0.5
+pytest-cov==2.5.1
+pytest-pep8==1.0.6
+pytest-flakes
+pytest-timeout
+pytest-mock
