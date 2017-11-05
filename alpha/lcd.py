@@ -1,5 +1,5 @@
 import smbus
-from time import *
+import time as time
 
 # LCD Address
 ADDRESS = 0x27
@@ -44,7 +44,7 @@ Rw = 0b00000010  # Read/Write bit
 Rs = 0b00000001  # Register select bit
 
 
-class i2c_device:
+class I2cDevice:
     def __init__(self, addr, port=1):
         self.addr = addr
         self.bus = smbus.SMBus(port)
@@ -52,13 +52,13 @@ class i2c_device:
     # Write a single command
     def write_cmd(self, cmd):
         self.bus.write_byte(self.addr, cmd)
-        sleep(0.0001)
+        time.sleep(0.0001)
 
 
-class lcd:
+class Lcd:
     # initializes objects and lcd
     def __init__(self):
-        self.lcd_device = i2c_device(ADDRESS)
+        self.lcd_device = I2cDevice(ADDRESS)
         self.lcd_write(0x03)
         self.lcd_write(0x03)
         self.lcd_write(0x03)
@@ -68,14 +68,14 @@ class lcd:
         self.lcd_write(LCD_DISPLAYCONTROL | LCD_DISPLAYON)
         self.lcd_write(LCD_CLEARDISPLAY)
         self.lcd_write(LCD_ENTRYMODESET | LCD_ENTRYLEFT)
-        sleep(0.2)
+        time.sleep(0.2)
 
     # clocks EN to latch command
     def lcd_strobe(self, data):
         self.lcd_device.write_cmd(data | En | LCD_BACKLIGHT)
-        sleep(.0005)
+        time.sleep(.0005)
         self.lcd_device.write_cmd(((data & ~En) | LCD_BACKLIGHT))
-        sleep(.0001)
+        time.sleep(.0001)
 
     def lcd_write_four_bits(self, data):
         self.lcd_device.write_cmd(data | LCD_BACKLIGHT)
@@ -105,6 +105,6 @@ class lcd:
         self.lcd_write(LCD_RETURNHOME)
 
 
-display = lcd()
+display = Lcd()
 display.lcd_display_string("RaspiNews - 16x2", 1)
 display.lcd_display_string("I2C LCD Demo..", 2)

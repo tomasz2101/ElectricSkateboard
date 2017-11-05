@@ -1,18 +1,15 @@
-from time import gmtime, strftime, sleep
+from time import gmtime, strftime
 from pathlib import Path
 import RPi.GPIO as GPIO
 import subprocess
-# import sys
-
-# sys.path.append('/home/pi/electricSkateboard/models')
-import configuration
+import configuration.config_helper as config
 
 file = Path("/home/pi/logs/start_up_" +
             strftime("%Y_%m_%d", gmtime()) + ".txt")
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-GPIO.setup(configuration.start_button, GPIO.IN)
-GPIO.setup(configuration.ready_led, GPIO.OUT)
+GPIO.setup(config.BUTTON_START, GPIO.IN)
+GPIO.setup(config.LED_READY, GPIO.OUT)
 
 
 def main():

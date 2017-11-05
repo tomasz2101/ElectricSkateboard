@@ -1,23 +1,23 @@
 #!/usr/bin/python
-from models.skateboard import *
+import models.skateboard as skateboard
 import configuration.config_helper as config
 from pprint import pprint
 
 
 def main():
     pprint('Starting main program')
-    skateboard = ClassSkateboard()
+    skate = skateboard.ClassSkateboard()
     if config.ENVIRONMENT == "production":
-        skateboard.connect_wii()
+        skate.connect_wii()
         # Wiimote checker thread
-        checker = SkateboardWatcher()
+        checker = skateboard.SkateboardWatcher()
         checker.daemon = True
         checker.start()
     try:
         if config.ENVIRONMENT == "production":
-            skateboard.read_wii_buttons()
+            skate.read_wii_buttons()
         else:
-            skateboard.read_console_input()
+            skate.read_console_input()
     except KeyboardInterrupt:
         raise
     except Exception as e:

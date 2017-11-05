@@ -3,12 +3,13 @@ from pprint import pprint
 import threading
 import subprocess
 import configuration.config_helper as config
+import time
 
 if config.ENVIRONMENT == "production":
     import pigpio
     import cwiid
-    from models.lcd import *
-    from models.led import *
+    import models.lcd as lcd
+    import models.led as led
 
     pi = pigpio.pi()
 
@@ -18,7 +19,7 @@ stop_val = False
 class ClassSkateboard(object):
     def __init__(self):
         if config.LED_STRIP["status"]:
-            self.led_strip = ClassLed()
+            self.led_strip = led.ClassLed()
             self.led_strip.set_green(50)
 
         if config.MOTOR["status"]:
@@ -27,9 +28,9 @@ class ClassSkateboard(object):
         self.speed = config.MOTOR["min_speed"]
         self.speed_percentage = 0
         self.motor_accel_sleep = config.MOTOR["accel_sleep"]
-        self.wii = False
+        self.wii = {}
         if config.LCD_DISPLAY["status"]:
-            self.display = ClassLcd()
+            self.display = lcd.ClassLcd()
             self.display.lcd_clear()
             self.display.lcd_display_string(message="Hello World :D", line=1)
         self.wii_led = 0
@@ -47,7 +48,7 @@ class ClassSkateboard(object):
                 if config.LCD_DISPLAY["status"]:
                     self.display.lcd_clear()
                     self.display.lcd_display_string(
-                        zmessage="Remote connected ...",
+                        message="Remote connected ...",
                         line=1)
             except RuntimeError:
                 if config.DEBUG:
@@ -148,7 +149,7 @@ class ClassSkateboard(object):
     def read_wii_buttons(self):
         # global stop_val
         while True:
-            buttons = self.wii.state['buttons']
+            buttons = self.wii["state"]['buttons']
             if buttons & cwiid.BTN_A:
                 self.set_speed(speed_value=1000, decrease_delay=1)
 

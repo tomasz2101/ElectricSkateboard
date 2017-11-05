@@ -1,3 +1,7 @@
+import os
+import subprocess
+import logging
+
 ENVIRONMENT = "production"
 
 DEBUG = True
@@ -70,3 +74,29 @@ BATTERY_METER = {
         },
     },
 }
+BUTTON_START = 1
+LED_READY = 2
+
+
+def climb(path):
+    """The the root directory name"""
+    while 1:
+        yield path
+        parts = os.path.split(path)
+        if parts[0] == path:  # Reached root
+            break
+        path = parts[0]
+
+
+def get_repo_name(path):
+    """ Find the repo name for a path.
+        Returns None if not a repo.
+    """
+    cwd = os.getcwd()
+    os.chdir(path)
+    result = subprocess.run(['git', 'config', '--get', 'remote.origin.url'],
+                            stdout=subprocess.PIPE)
+    repo_name = os.path.basename(result.stdout.decode().strip())
+    logging.info('get_repo_name: %s %s', path, repo_name)
+    os.chdir(cwd)
+    return repo_name
