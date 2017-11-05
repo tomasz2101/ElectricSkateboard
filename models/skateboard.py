@@ -182,7 +182,7 @@ class SkateboardWatcher(threading.Thread):
                       "1",
                       "-t",
                       "1",
-                      config.WII_REMOTE.address]
+                      config.WII_REMOTE["address"]]
     power_down = ["sudo", "shutdown", "now"]
 
     def run(self):
