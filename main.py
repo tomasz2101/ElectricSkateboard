@@ -6,8 +6,6 @@ import sys
 
 is_debug = "debug" in sys.argv
 
-pprint(config.ENVIRONMENT)
-
 
 def main():
     message = 'Starting main program'

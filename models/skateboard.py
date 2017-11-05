@@ -22,8 +22,6 @@ stop_val = False
 class ClassSkateboard(object):
     # skateboard constants
     motor_frequency = 50
-    motor_speed_min = 1000
-    motor_speed_max = 2400
     motor_speed_change = 1
 
     motor_accel_sleep = 0.015
@@ -32,16 +30,16 @@ class ClassSkateboard(object):
     motor_accel_sleep_change = 0.005
 
     def __init__(self):
-        if config.LED_STRIP.status:
+        if config.LED_STRIP["status"]:
             self.led_strip = ClassLed()
             self.led_strip.set_green(50)
-        if config.MOTOR.status:
-            pi.set_PWM_frequency(config.MOTOR.pin,
+        if config.MOTOR["status"]:
+            pi.set_PWM_frequency(config.MOTOR["pin"],
                                  self.motor_frequency)
-        self.speed = self.motor_speed_min
+        self.speed = config.MOTOR["min_speed"]
         self.speed_percentage = 0
         self.wii = False
-        if config.LCD_DISPLAY.status:
+        if config.LCD_DISPLAY["status"]:
             self.display = ClassLcd()
             self.display.lcd_clear()
             self.display.lcd_display_string("Hello World :D", 1)
@@ -51,13 +49,13 @@ class ClassSkateboard(object):
         connected = False
         while not connected:
             try:
-                self.wii = cwiid.Wiimote(bdaddr=config.WII_REMOTE.status)
+                self.wii = cwiid.Wiimote(bdaddr=config.WII_REMOTE["status"])
                 # enable button reporting
                 self.wii.rpt_mode = cwiid.RPT_BTN
                 self.wii_vibration(0.2, 2)
                 self.set_wii_light(1, 0, 0, 1)
                 connected = True
-                if config.LCD_DISPLAY.status:
+                if config.LCD_DISPLAY["status"]:
                     self.display.lcd_clear()
                     self.display.lcd_display_string("Remote connected ...", 1)
             except RuntimeError:
@@ -87,10 +85,10 @@ class ClassSkateboard(object):
 
     def set_speed(self, speed_value):
         time.sleep(self.motor_accel_sleep)
-        value = max(min(speed_value, self.motor_speed_max),
-                    self.motor_speed_min)
+        value = max(min(speed_value, config.MOTOR["max_speed"]),
+                    config.MOTOR["min_speed"])
         self.speed = value
-        pi.set_servo_pulsewidth(config.MOTOR.status, value)
+        pi.set_servo_pulsewidth(config.MOTOR["status"], value)
 
         if value < 1350 and self.get_wii_light != 0:
             self.set_wii_light(0, 0, 0, 0)
@@ -102,10 +100,10 @@ class ClassSkateboard(object):
             self.set_wii_light(1, 1, 1, 0)
         if 2400 <= value < 2500 and self.get_wii_light != 15:
             self.set_wii_light(1, 1, 1, 1)
-        speed_percentage = int((value - self.motor_speed_min) /
-                               float(self.motor_speed_max -
-                                     self.motor_speed_min) * 100)
-        if config.LCD_DISPLAY.status \
+        speed_percentage = int((value - config.MOTOR["min_speed"]) /
+                               float(config.MOTOR["max_speed"] -
+                                     config.MOTOR["min_speed"]) * 100)
+        if config.LCD_DISPLAY["status"] \
                 and self.speed_percentage != speed_percentage:
             self.display.lcd_clear()
             self.display.lcd_display_string("Speed setting ...", 1)
@@ -137,7 +135,7 @@ class ClassSkateboard(object):
                     self.motor_accel_sleep_min)
         self.motor_accel_sleep = value
         print(self.motor_accel_sleep)
-        if config.LCD_DISPLAY.status:
+        if config.LCD_DISPLAY["status"]:
             self.display.lcd_display_string("Accel setting ...", 1)
             self.display.lcd_display_string(str(self.motor_accel_sleep), 2)
         time.sleep(0.1)

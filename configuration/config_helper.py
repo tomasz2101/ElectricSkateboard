@@ -4,7 +4,9 @@ GPIO_MODULE = True
 
 MOTOR = {
     "status": True,
-    "pin": 4
+    "pin": 4,
+    "max_speed": 2400,
+    "min_speed": 1000
 }
 
 LED_STRIP = {
