@@ -74,6 +74,7 @@ class ClassSkateboard(object):
 
     def set_speed(self, speed_value, decrease_delay):
         time.sleep(self.motor_accel_sleep / decrease_delay)
+        pprint(self.motor_accel_sleep / decrease_delay)
         value = max(min(speed_value, config.MOTOR["max_speed"]),
                     config.MOTOR["min_speed"])
         self.speed = value
