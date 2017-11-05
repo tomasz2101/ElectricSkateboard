@@ -2,7 +2,6 @@
 from pprint import pprint
 import threading
 import subprocess
-import sys
 import configuration.config_helper as config
 
 if config.ENVIRONMENT == "production":
@@ -12,8 +11,6 @@ if config.ENVIRONMENT == "production":
     from models.led import *
 
     pi = pigpio.pi()
-
-is_debug = "debug" in sys.argv
 
 stop_val = False
 
@@ -58,8 +55,7 @@ class ClassSkateboard(object):
                     self.display.lcd_clear()
                     self.display.lcd_display_string("Remote connected ...", 1)
             except RuntimeError:
-                print("Error opening wiimote connection")
-                if config.ENVIRONMENT != "production":
+                if config.DEBUG:
                     print("Error opening wiimote connection")
                 pass
 
@@ -80,7 +76,7 @@ class ClassSkateboard(object):
         return self.wii_led
 
     def check_wii_light(self):
-        if config.ENVIRONMENT != "production":
+        if config.DEBUG:
             pprint(self.wii_led)
 
     def set_speed(self, speed_value):
@@ -145,22 +141,28 @@ class ClassSkateboard(object):
         while True:
             buttons = self.wii.state['buttons']
             if buttons & cwiid.BTN_A:
+                pprint("1")
                 self.set_speed(1000)
 
             if buttons & cwiid.BTN_UP:
+                pprint("2")
                 self.increase_speed(1)
 
             if buttons & cwiid.BTN_DOWN:
+                pprint("3")
                 self.decrease_speed(3)
 
             if buttons & cwiid.BTN_B:
+                pprint("4")
                 self.increase_speed(3)
 
             if buttons & cwiid.BTN_PLUS:
+                pprint("5")
                 # self.increase_accel_sleep()
                 self.led_strip.increase_green()
 
             if buttons & cwiid.BTN_MINUS:
+                pprint("6")
                 # self.decrease_accel_sleep()
                 self.led_strip.decrease_green()
 
@@ -173,7 +175,6 @@ class ClassSkateboard(object):
 
 
 class SkateboardWatcher(threading.Thread):
-    pprint(config.WII_REMOTE["address"])
     ping_bluetooth = ["sudo",
                       "l2ping",
                       "-c",
@@ -184,7 +185,7 @@ class SkateboardWatcher(threading.Thread):
     power_down = ["sudo", "shutdown", "now"]
 
     def run(self):
-        print('sprawdzenie polaczenia')
+        print('testing connection')
         while True:
             self.wiimote_check()
             time.sleep(0.1)
@@ -196,7 +197,7 @@ class SkateboardWatcher(threading.Thread):
 
     def shutdown(self):
         self.motor_off()
-        if is_debug:
+        if config.DEBUG:
             print("OFF")
         else:
             print("OFF")

@@ -8,21 +8,19 @@ is_debug = "debug" in sys.argv
 
 
 def main():
-    message = 'Starting main program'
-    if is_debug:
-        message += ' with debugging'
-    skate = ClassSkateboard()
+    pprint('Starting main program')
+    skateboard = ClassSkateboard()
     if config.ENVIRONMENT == "production":
-        skate.connect_wii()
+        skateboard.connect_wii()
         # Wiimote checker thread
         checker = SkateboardWatcher()
         checker.daemon = True
         checker.start()
     try:
         if config.ENVIRONMENT == "production":
-            skate.read_wii_buttons()
+            skateboard.read_wii_buttons()
         else:
-            skate.read_console_input()
+            skateboard.read_console_input()
     except KeyboardInterrupt:
         raise
     except Exception as e:
