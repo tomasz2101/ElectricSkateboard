@@ -5,7 +5,6 @@ import subprocess
 import sys
 import configuration.config_helper as config
 
-
 if config.ENVIRONMENT == "production":
     import pigpio
     import cwiid
@@ -49,7 +48,6 @@ class ClassSkateboard(object):
         connected = False
         while not connected:
             try:
-                pprint()
                 self.wii = cwiid.Wiimote(bdaddr=config.WII_REMOTE["address"])
                 # enable button reporting
                 self.wii.rpt_mode = cwiid.RPT_BTN
