@@ -48,12 +48,13 @@ class ClassSkateboard(object):
                 self.wii_vibration(delay=0.2, times=2)
                 self.set_wii_light(light0=1, light1=0, light2=0, light3=1)
                 connected = True
-                pprint("1")
+                pprint("3")
                 if config.LCD_DISPLAY["status"]:
                     self.display.lcd_clear()
                     self.display.lcd_display_string(
                         message="Remote connected ...",
                         line=1)
+                pprint("4")
             except RuntimeError:
                 if config.DEBUG:
                     print("Error opening wiimote connection")
@@ -80,6 +81,7 @@ class ClassSkateboard(object):
             pprint(self.wii_led)
 
     def set_speed(self, speed_value, decrease_delay):
+        pprint("set_speed")
         time.sleep(self.motor_accel_sleep / decrease_delay)
         value = max(min(speed_value, config.MOTOR["max_speed"]),
                     config.MOTOR["min_speed"])
@@ -152,8 +154,10 @@ class ClassSkateboard(object):
 
     def read_wii_buttons(self):
         # global stop_val
+        pprint("read_wii_buttons")
         while True:
             buttons = self.wii["state"]['buttons']
+            pprint("1")
             if buttons & cwiid.BTN_A:
                 self.set_speed(speed_value=1000, decrease_delay=1)
 
