@@ -80,12 +80,16 @@ class ClassSkateboard(object):
             pprint(self.wii_led)
 
     def set_speed(self, speed_value):
+        pprint("1")
         time.sleep(self.motor_accel_sleep)
+        pprint("2")
         value = max(min(speed_value, config.MOTOR["max_speed"]),
                     config.MOTOR["min_speed"])
+        pprint("3")
         self.speed = value
+        pprint("4")
         pi.set_servo_pulsewidth(config.MOTOR["status"], value)
-
+        pprint("5")
         if value < 1350 and self.get_wii_light != 0:
             self.set_wii_light(0, 0, 0, 0)
         if 1350 <= value < 1700 and self.get_wii_light != 1:
@@ -96,15 +100,18 @@ class ClassSkateboard(object):
             self.set_wii_light(1, 1, 1, 0)
         if 2400 <= value < 2500 and self.get_wii_light != 15:
             self.set_wii_light(1, 1, 1, 1)
+        pprint("6")
         speed_percentage = int((value - config.MOTOR["min_speed"]) /
                                float(config.MOTOR["max_speed"] -
                                      config.MOTOR["min_speed"]) * 100)
+        pprint("7")
         if config.LCD_DISPLAY["status"] \
                 and self.speed_percentage != speed_percentage:
             self.display.lcd_clear()
             self.display.lcd_display_string("Speed setting ...", 1)
             self.display.lcd_display_string(str(speed_percentage), 2)
         print(speed_percentage)
+        pprint("8")
         self.speed_percentage = speed_percentage
 
     def get_speed(self):
