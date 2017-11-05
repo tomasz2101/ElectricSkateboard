@@ -39,13 +39,16 @@ class ClassSkateboard(object):
         connected = False
         while not connected:
             try:
-                pprint("test")
+                pprint("1")
                 self.wii = cwiid.Wiimote(bdaddr=config.WII_REMOTE["address"])
+                pprint("2")
+
                 # enable button reporting
                 self.wii.rpt_mode = cwiid.RPT_BTN
                 self.wii_vibration(delay=0.2, times=2)
                 self.set_wii_light(light0=1, light1=0, light2=0, light3=1)
                 connected = True
+                pprint("1")
                 if config.LCD_DISPLAY["status"]:
                     self.display.lcd_clear()
                     self.display.lcd_display_string(
