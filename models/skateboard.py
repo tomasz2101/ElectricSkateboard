@@ -88,7 +88,7 @@ class ClassSkateboard(object):
         pprint("3")
         self.speed = value
         pprint("4")
-        pi.set_servo_pulsewidth(config.MOTOR["status"], value)
+        pi.set_servo_pulsewidth(config.MOTOR["pin"], value)
         pprint("5")
         if value < 1350 and self.get_wii_light != 0:
             self.set_wii_light(0, 0, 0, 0)
