@@ -12,6 +12,6 @@ setup(name='tw',
       author='tw',
       author_email='user21012@protonmail.ch',
       url='',
-      packages=['testing'], scripts=['testing/db.py'
-                                     ]
+      packages=['alpha'], scripts=['alpha/db.py'
+                                   ]
       )

@@ -1,5 +1,6 @@
 #!/usr/bin/python
 from models.skateboard import *
+import configuration.skateboard as configuration
 from pprint import pprint
 import sys
 
@@ -10,7 +11,7 @@ def main():
     message = 'Starting main program'
     if is_debug:
         message += ' with debugging'
-    print(message)
+    pprint(message)
     skate = ClassSkateboard()
     if configuration["environment"]["status"] == "production":
         skate.connect_wii()
@@ -26,7 +27,7 @@ def main():
     except KeyboardInterrupt:
         raise
     except Exception as e:
-        print(e)
+        pprint(e)
 
 
 if __name__ == "__main__":

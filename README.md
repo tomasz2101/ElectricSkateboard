@@ -15,6 +15,8 @@
     $ sudo mkdir /skateboard
     $ sudo mkdir /skateboard/src
     $ sudo mkdir /skateboard/log
-    $ sudo chwon -R pi:pi /skateboard
+    $ sudo mkdir /skateboard/data
+    $ sudo git clone https://github.com/tomasz2101/skateboard.git /skateboard/src
+    $ sudo chown -R pi:pi /skateboard
 ### Prepare rPi
     $ sudo . /skateboard/src/devops/preaprare_rpi/install_on_rpi.sh
