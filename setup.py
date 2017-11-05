@@ -8,7 +8,7 @@ from distutils.core import setup
 
 setup(name='tw',
       version='1.1.0',
-      description='someting',
+      description='something',
       author='tw',
       author_email='user21012@protonmail.ch',
       url='',

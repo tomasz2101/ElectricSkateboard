@@ -57,11 +57,11 @@ class ClassSkateboard(object):
                 self.wii_vibration(0.2, 2)
                 self.set_wii_light(1, 0, 0, 1)
                 connected = True
-                if configuration["lcd_display"]["status"]:
+                if config.LCD_DISPLAY.status:
                     self.display.lcd_clear()
                     self.display.lcd_display_string("Remote connected ...", 1)
             except RuntimeError:
-                if configuration["environment"]["status"] != "production":
+                if config.ENVIRONMENT != "production":
                     print("Error opening wiimote connection")
                 pass
 
@@ -79,10 +79,10 @@ class ClassSkateboard(object):
         self.wii.led = translation
 
     def get_wii_light(self):
-        return self.wii.led
+        return self.wii_led
 
     def check_wii_light(self):
-        if configuration["environment"]["status"] != "production":
+        if config.ENVIRONMENT != "production":
             pprint(self.wii_led)
 
     def set_speed(self, speed_value):
@@ -90,7 +90,7 @@ class ClassSkateboard(object):
         value = max(min(speed_value, self.motor_speed_max),
                     self.motor_speed_min)
         self.speed = value
-        pi.set_servo_pulsewidth(configuration["motor"]["pin"], value)
+        pi.set_servo_pulsewidth(config.MOTOR.status, value)
 
         if value < 1350 and self.get_wii_light != 0:
             self.set_wii_light(0, 0, 0, 0)
@@ -105,12 +105,11 @@ class ClassSkateboard(object):
         speed_percentage = int((value - self.motor_speed_min) /
                                float(self.motor_speed_max -
                                      self.motor_speed_min) * 100)
-        if configuration["lcd_display"]["status"] \
+        if config.LCD_DISPLAY.status \
                 and self.speed_percentage != speed_percentage:
             self.display.lcd_clear()
             self.display.lcd_display_string("Speed setting ...", 1)
             self.display.lcd_display_string(str(speed_percentage), 2)
-        # if configuration["environment"]["status"] != "production":
         print(speed_percentage)
         self.speed_percentage = speed_percentage
 
@@ -138,7 +137,7 @@ class ClassSkateboard(object):
                     self.motor_accel_sleep_min)
         self.motor_accel_sleep = value
         print(self.motor_accel_sleep)
-        if configuration["lcd_display"]["status"]:
+        if config.LCD_DISPLAY.status:
             self.display.lcd_display_string("Accel setting ...", 1)
             self.display.lcd_display_string(str(self.motor_accel_sleep), 2)
         time.sleep(0.1)
@@ -182,7 +181,7 @@ class SkateboardWatcher(threading.Thread):
                       "1",
                       "-t",
                       "1",
-                      configuration["wii_remote"]["address"]]
+                      config.WII_REMOTE.address]
     power_down = ["sudo", "shutdown", "now"]
 
     def run(self):

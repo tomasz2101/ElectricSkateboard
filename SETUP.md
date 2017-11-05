@@ -6,11 +6,11 @@
        xcode-select --install
 
 1. Install Python 3
-     1. Install homebrew
+     1. Install homebrew (https://brew.sh/)
 
             /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-     2. Install python3 and virtualenv
+     2. Install python3
 
             brew install python3
 
@@ -24,7 +24,7 @@
  5. The config * after "Project Interpreter", "Create Virtualenv".
  6. I name my environment .pybuild and place it inside the skateboard directory, also I
     have selected to "Inherit global site-packages".
- 7. Open "requierments.txt" in the IDE, when the small top row appears select
+ 7. Open "requirements.txt" in the IDE, when the small top row appears select
     "install packages".
 
 #### Test installation
@@ -37,9 +37,9 @@ Some test may fail, because MacOS ain't no Linux, yet.
 
 #### Running from terminal
 
-Cd to the root of the checkout repo, assuong the pybuild virtual env
-from previuos steps.
+Go to the root of the checkout repo, assuong the pybuild virtual env
+from previous steps.
 
     . .pybuild/bin/activate
     pip3 install -e .
-    pytest --pep8 --cov=hadbuild
+    pytest --pep8 --cov=testbuild
