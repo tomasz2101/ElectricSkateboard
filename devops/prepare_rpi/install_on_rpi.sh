@@ -34,6 +34,7 @@ declare -a commandsToExecute=(
   "sudo apt-get install -y python-pip"
   "sudo apt-get install -y python-virtualenv"
   "sudo apt-get install -y python-cwiid"
+  "sudo apt-get install -y dos2unix"
   # Install pip packages
   "sudo pip install pathlib"
   # Install wiringPi
@@ -43,7 +44,6 @@ declare -a commandsToExecute=(
   "sudo pip install wiringpi2"
   "rm -rf /wiringPi"
   # Copy files
-  "sudo cp ./.ssh ~/.ssh"
   "sudo cp ./vim.rc ~/.vimrc"
   # Copy repository
   "sudo git clone git@github.com:tomasz2101/skateboard.git /skateboard/src/"
@@ -53,7 +53,8 @@ declare -a commandsToExecute=(
   # Backup crontab before replacing
   "sudo crontab -l > /backup/crontab_backup_${now}"
   # Replace crontab
-  "sudo dos2unix ./crontabfile | crontab -"
+  "sudo dos2unix ./crontabfile"
+  "sudo crontab ./crontabfile"
   # Output crontab to validate by user
   "sudo crontab -l"
   )

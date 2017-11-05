@@ -14,8 +14,6 @@
 ### Project structure
     $ sudo mkdir /skateboard
     $ sudo mkdir /skateboard/src
-    $ sudo mkdir /skateboard/log
-    $ sudo mkdir /skateboard/data
     $ sudo git clone https://github.com/tomasz2101/skateboard.git /skateboard/src
     $ sudo chown -R pi:pi /skateboard
 ### Prepare rPi
