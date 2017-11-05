@@ -58,6 +58,7 @@ class ClassSkateboard(object):
                     self.display.lcd_clear()
                     self.display.lcd_display_string("Remote connected ...", 1)
             except RuntimeError:
+                print("Error opening wiimote connection")
                 if config.ENVIRONMENT != "production":
                     print("Error opening wiimote connection")
                 pass
