@@ -1,4 +1,4 @@
-ENVIRONMENT = "development"
+ENVIRONMENT = "production"
 I2C_MODULE = True
 GPIO_MODULE = True
 
