@@ -9,7 +9,7 @@ MOTOR = {
     "max_speed": 2400,
     "min_speed": 1000,
     "frequency": 50,
-    "speed_change": 1,
+    "speed_change": 2,
     "accel_sleep": 0.015,
     "accel_sleep_min": 0.005,
     "accel_sleep_max": 0.1,
