@@ -31,7 +31,7 @@ class ClassSkateboard(object):
         if config.LCD_DISPLAY["status"]:
             self.display = ClassLcd()
             self.display.lcd_clear()
-            self.display.lcd_display_string("Hello World :D", 1)
+            self.display.lcd_display_string(message="Hello World :D", line=1)
         self.wii_led = 0
 
     def connect_wii(self):
@@ -41,12 +41,12 @@ class ClassSkateboard(object):
                 self.wii = cwiid.Wiimote(bdaddr=config.WII_REMOTE["address"])
                 # enable button reporting
                 self.wii.rpt_mode = cwiid.RPT_BTN
-                self.wii_vibration(0.2, 2)
-                self.set_wii_light(1, 0, 0, 1)
+                self.wii_vibration(delay=0.2, times=2)
+                self.set_wii_light(light0=1, light1=0, light2=0, light3=1)
                 connected = True
                 if config.LCD_DISPLAY["status"]:
                     self.display.lcd_clear()
-                    self.display.lcd_display_string("Remote connected ...", 1)
+                    self.display.lcd_display_string(message="Remote connected ...", line=1)
             except RuntimeError:
                 if config.DEBUG:
                     print("Error opening wiimote connection")
@@ -60,8 +60,8 @@ class ClassSkateboard(object):
             if times > 1:
                 time.sleep(delay)
 
-    def set_wii_light(self, light1, light2, light3, light4):
-        translation = light4 * 8 + light3 * 4 + light2 * 2 + light1
+    def set_wii_light(self, light0, light1, light2, light3):
+        translation = light3 * 8 + light2 * 4 + light1 * 2 + light0
         self.wii_led = translation
         self.wii.led = translation
 
@@ -79,24 +79,25 @@ class ClassSkateboard(object):
         self.speed = value
         pi.set_servo_pulsewidth(config.MOTOR["pin"], value)
         if value < 1350 and self.get_wii_light != 0:
-            self.set_wii_light(0, 0, 0, 0)
+            self.set_wii_light(light0=0, light1=0, light2=0, light3=0)
         if 1350 <= value < 1700 and self.get_wii_light != 1:
-            self.set_wii_light(1, 0, 0, 0)
+            self.set_wii_light(light0=1, light1=0, light2=0, light3=0)
         if 1700 <= value < 2050 and self.get_wii_light != 3:
-            self.set_wii_light(1, 1, 0, 0)
+            self.set_wii_light(light0=1, light1=1, light2=0, light3=0)
         if 2050 <= value < 2400 and self.get_wii_light != 7:
-            self.set_wii_light(1, 1, 1, 0)
+            self.set_wii_light(light0=1, light1=1, light2=1, light3=0)
         if 2400 <= value < 2500 and self.get_wii_light != 15:
-            self.set_wii_light(1, 1, 1, 1)
+            self.set_wii_light(light0=1, light1=1, light2=1, light3=1)
         speed_percentage = int((value - config.MOTOR["min_speed"]) /
                                float(config.MOTOR["max_speed"] -
                                      config.MOTOR["min_speed"]) * 100)
-        if config.LCD_DISPLAY["status"] \
-                and self.speed_percentage != speed_percentage:
-            self.display.lcd_clear()
-            self.display.lcd_display_string("Speed setting ...", 1)
-            self.display.lcd_display_string(str(speed_percentage), 2)
-        print(speed_percentage)
+
+        if self.speed_percentage != speed_percentage:
+            print(speed_percentage)
+            if config.LCD_DISPLAY["status"]:
+                self.display.lcd_clear()
+                self.display.lcd_display_string(message="Speed setting ...", line=1)
+                self.display.lcd_display_string(message=str(speed_percentage), line=2)
         self.speed_percentage = speed_percentage
 
     def get_speed(self):
