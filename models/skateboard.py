@@ -1,16 +1,16 @@
 #!/usr/bin/python
-import time
 from pprint import pprint
 import threading
 import subprocess
 import sys
-import configuration
+import configuration.config_helper as config
 
-if configuration["environment"]["status"] == "production":
+
+if config.ENVIRONMENT == "production":
     import pigpio
     import cwiid
-    from lcd import *
-    from led import *
+    from models.lcd import *
+    from models.led import *
 
     pi = pigpio.pi()
 
@@ -32,17 +32,16 @@ class ClassSkateboard(object):
     motor_accel_sleep_change = 0.005
 
     def __init__(self):
-        if configuration["led_strip"]["status"]:
+        if config.LED_STRIP.status:
             self.led_strip = ClassLed()
             self.led_strip.set_green(50)
-        if configuration["motor"]["status"]:
-            pi.set_PWM_frequency(configuration["motor"]["pin"],
+        if config.MOTOR.status:
+            pi.set_PWM_frequency(config.MOTOR.pin,
                                  self.motor_frequency)
         self.speed = self.motor_speed_min
         self.speed_percentage = 0
         self.wii = False
-        self.configuration = configuration
-        if configuration["lcd_display"]["status"]:
+        if config.LCD_DISPLAY.status:
             self.display = ClassLcd()
             self.display.lcd_clear()
             self.display.lcd_display_string("Hello World :D", 1)
@@ -52,8 +51,7 @@ class ClassSkateboard(object):
         connected = False
         while not connected:
             try:
-                address = configuration["wii_remote"]["address"]
-                self.wii = cwiid.Wiimote(bdaddr=address)
+                self.wii = cwiid.Wiimote(bdaddr=config.WII_REMOTE.status)
                 # enable button reporting
                 self.wii.rpt_mode = cwiid.RPT_BTN
                 self.wii_vibration(0.2, 2)
