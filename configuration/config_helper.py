@@ -7,7 +7,8 @@ MOTOR = {
     "status": True,
     "pin": 4,
     "max_speed": 2400,
-    "min_speed": 1000
+    "min_speed": 1000,
+    "frequency": 50
 }
 
 LED_STRIP = {

@@ -17,7 +17,6 @@ stop_val = False
 
 class ClassSkateboard(object):
     # skateboard constants
-    motor_frequency = 50
     motor_speed_change = 1
 
     motor_accel_sleep = 0.015
@@ -31,7 +30,7 @@ class ClassSkateboard(object):
             self.led_strip.set_green(50)
         if config.MOTOR["status"]:
             pi.set_PWM_frequency(config.MOTOR["pin"],
-                                 self.motor_frequency)
+                                 config.MOTOR["frequency"])
         self.speed = config.MOTOR["min_speed"]
         self.speed_percentage = 0
         self.wii = False
@@ -79,17 +78,12 @@ class ClassSkateboard(object):
         if config.DEBUG:
             pprint(self.wii_led)
 
-    def set_speed(self, speed_value):
-        pprint("1")
-        time.sleep(self.motor_accel_sleep)
-        pprint("2")
+    def set_speed(self, speed_value, decrease_delay):
+        time.sleep(self.motor_accel_sleep / decrease_delay)
         value = max(min(speed_value, config.MOTOR["max_speed"]),
                     config.MOTOR["min_speed"])
-        pprint("3")
         self.speed = value
-        pprint("4")
         pi.set_servo_pulsewidth(config.MOTOR["pin"], value)
-        pprint("5")
         if value < 1350 and self.get_wii_light != 0:
             self.set_wii_light(0, 0, 0, 0)
         if 1350 <= value < 1700 and self.get_wii_light != 1:
@@ -100,30 +94,27 @@ class ClassSkateboard(object):
             self.set_wii_light(1, 1, 1, 0)
         if 2400 <= value < 2500 and self.get_wii_light != 15:
             self.set_wii_light(1, 1, 1, 1)
-        pprint("6")
         speed_percentage = int((value - config.MOTOR["min_speed"]) /
                                float(config.MOTOR["max_speed"] -
                                      config.MOTOR["min_speed"]) * 100)
-        pprint("7")
         if config.LCD_DISPLAY["status"] \
                 and self.speed_percentage != speed_percentage:
             self.display.lcd_clear()
             self.display.lcd_display_string("Speed setting ...", 1)
             self.display.lcd_display_string(str(speed_percentage), 2)
         print(speed_percentage)
-        pprint("8")
         self.speed_percentage = speed_percentage
 
     def get_speed(self):
         return self.speed
 
-    def increase_speed(self, multiplier):
+    def increase_speed(self, decrease_delay):
         actual_speed = self.speed
-        self.set_speed(actual_speed + self.motor_speed_change * multiplier)
+        self.set_speed(actual_speed + self.motor_speed_change, decrease_delay)
 
-    def decrease_speed(self, multiplier):
+    def decrease_speed(self, decrease_delay):
         actual_speed = self.speed
-        self.set_speed(actual_speed - self.motor_speed_change * multiplier)
+        self.set_speed(actual_speed - self.motor_speed_change, decrease_delay)
 
     def increase_accel_sleep(self):
         accel_speed = self.motor_accel_sleep
@@ -148,28 +139,22 @@ class ClassSkateboard(object):
         while True:
             buttons = self.wii.state['buttons']
             if buttons & cwiid.BTN_A:
-                pprint("1")
-                self.set_speed(1000)
+                self.set_speed(speed_value=1000, decrease_delay=1)
 
             if buttons & cwiid.BTN_UP:
-                pprint("2")
-                self.increase_speed(1)
+                self.increase_speed(decrease_delay=1)
 
             if buttons & cwiid.BTN_DOWN:
-                pprint("3")
-                self.decrease_speed(3)
+                self.decrease_speed(decrease_delay=3)
 
             if buttons & cwiid.BTN_B:
-                pprint("4")
-                self.increase_speed(3)
+                self.increase_speed(decrease_delay=3)
 
             if buttons & cwiid.BTN_PLUS:
-                pprint("5")
                 # self.increase_accel_sleep()
                 self.led_strip.increase_green()
 
             if buttons & cwiid.BTN_MINUS:
-                pprint("6")
                 # self.decrease_accel_sleep()
                 self.led_strip.decrease_green()
 
