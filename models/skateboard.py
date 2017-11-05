@@ -156,7 +156,7 @@ class ClassSkateboard(object):
         # global stop_val
         pprint("read_wii_buttons")
         while True:
-            buttons = self.wii["state"]['buttons']
+            buttons = self.wii.state['buttons']
             pprint("1")
             if buttons & cwiid.BTN_A:
                 self.set_speed(speed_value=1000, decrease_delay=1)
