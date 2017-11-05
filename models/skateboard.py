@@ -175,7 +175,7 @@ class ClassSkateboard(object):
 
 
 class SkateboardWatcher(threading.Thread):
-    pprint(config.WII_REMOTE)
+    pprint(config.WII_REMOTE["address"])
     ping_bluetooth = ["sudo",
                       "l2ping",
                       "-c",
