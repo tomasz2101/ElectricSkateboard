@@ -49,7 +49,8 @@ class ClassSkateboard(object):
         connected = False
         while not connected:
             try:
-                self.wii = cwiid.Wiimote(bdaddr=config.WII_REMOTE["status"])
+                pprint()
+                self.wii = cwiid.Wiimote(bdaddr=config.WII_REMOTE["address"])
                 # enable button reporting
                 self.wii.rpt_mode = cwiid.RPT_BTN
                 self.wii_vibration(0.2, 2)
