@@ -13,6 +13,8 @@ GPIO_MODULE = True
 LOGGING_DIRECTORY = "/skateboard/log"
 PROGRAM_DIRECTORY = "/skateboard/src"
 
+BUS_VERSION = 1
+
 MOTOR = {
     "status": True,
     "pin": 4,
