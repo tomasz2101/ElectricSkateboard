@@ -14,7 +14,8 @@ try:
         # max_voltage = 4.38
         # max_value = 255
         while True:
-            print("######################", strftime("%Y-%m-%d %H:%M:%S", gmtime()),
+            print("######################",
+                  strftime("%Y-%m-%d %H:%M:%S", gmtime()),
                   "#####################")
             for x in config.BATTERY_METER["modules"]:
                 module_adc = config.BATTERY_METER["modules"][x]
@@ -25,14 +26,18 @@ try:
 
                     # pins.append()
                     bus.write_byte(module_adc["address"], pinNumber)
-                    value = bus.read_byte(module_adc["address"]) * config.BATTERY_METER[
-                        "reference_voltage"] / float(config.BATTERY_METER["max_value"])
+                    value = bus.read_byte(
+                        module_adc["address"]) * config.BATTERY_METER[
+                                "reference_voltage"] / float(
+                        config.BATTERY_METER["max_value"])
                     print("pin %s" % pinLabel, " => %f" % value)
                     # print()
-                    # first_input = bus.read_byte(0x48) * max_voltage / float(max_value)
+                    # first_input = bus.read_byte(0x48) * max_voltage /
+                    #  float(max_value)
 
                     # bus.write_byte(0x48, 4)
-                    # second_input = bus.read_byte(0x48) * max_voltage / float(max_value)
+                    # second_input = bus.read_byte(0x48) * max_voltage /
+                    # float(max_value)
                     # print(round(first_input, 2), round(second_input, 2))
                     # pprint(pins)
             print("######################    KONIEC   ####################")
