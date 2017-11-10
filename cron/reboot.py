@@ -1,7 +1,7 @@
 from pathlib import Path
 from time import gmtime, strftime
 import subprocess
-import configuration.config_helper as config
+import configuration.config_production as config
 
 # from pprint import pprint
 # pprint(configuration)

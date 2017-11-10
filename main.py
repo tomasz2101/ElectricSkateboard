@@ -1,16 +1,16 @@
 #!/usr/bin/python
 import models.skateboard as skateboard
-import configuration.config_helper as config
+import configuration.config_production as config
 from pprint import pprint
 
 
 def main():
     pprint('Starting main program')
-    skate = skateboard.ClassSkateboard()
+    skate = skateboard.ClassSkateboard(configuration="production")
     if config.ENVIRONMENT == "production":
         skate.connect_wii()
         # Wiimote checker thread
-        checker = skateboard.SkateboardWatcher()
+        checker = skateboard.SkateboardWatcher(configuration="production")
         checker.daemon = True
         checker.start()
     try:

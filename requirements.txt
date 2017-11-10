@@ -1,8 +1,8 @@
 # RPi.GPIO
 # MySQLdb
-# pigpio
-# cwiid
-# smbus
+pigpio
+cwiid
+smbus
 doxypypy==0.8.8.6
 PyYAML==3.12
 requests==2.18.3

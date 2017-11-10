@@ -1,6 +1,6 @@
 .cache/
 .pybuild/
 .coverage
-tw.egg-info
+tw.egg-info/
 .idea
-.coverage
+build/

@@ -48,4 +48,4 @@ from previous steps.
 
     . .pybuild/bin/activate
     pip3 install -e .
-    pytest --pep8 --cov=testbuild
+    pytest --pep8 --cov=tw

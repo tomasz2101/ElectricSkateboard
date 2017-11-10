@@ -38,7 +38,7 @@ LED_STRIP = {
 }
 
 LCD_DISPLAY = {
-    "status": False,
+    "status": True,
     "address": 0x27
 }
 
