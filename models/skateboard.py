@@ -189,21 +189,16 @@ class ClassSkateboard(object):
 
 
 class SkateboardWatcher(threading.Thread):
-    def __init__(self, configuration):
-        if configuration == "production":
-            import configuration.config_production as config
-        else:
-            import configuration.config_development as config
-        self.config = config
+    import configuration.config_production as config
 
-        self.ping_bluetooth = ["sudo",
-                               "l2ping",
-                               "-c",
-                               "1",
-                               "-t",
-                               "1",
-                               self.config.WII_REMOTE["address"]]
-        self.power_down = ["sudo", "shutdown", "now"]
+    ping_bluetooth = ["sudo",
+                      "l2ping",
+                      "-c",
+                      "1",
+                      "-t",
+                      "1",
+                      config.WII_REMOTE["address"]]
+    power_down = ["sudo", "shutdown", "now"]
 
     def run(self):
         print('testing connection')
