@@ -18,7 +18,7 @@ try:
             for _, module_adc in config.BATTERY_METER["modules"].items():
                 print("address %s" % str(format(module_adc["address"], "02x")))
                 pins = []
-                for pinLabel, pinNumber in module_adc["pins"].items():
+                for pinNumber, pinLabel in module_adc["pins"].items():
                     bus.write_byte(module_adc["address"], int(pinNumber))
                     value = bus.read_byte(
                         module_adc["address"]) * config.BATTERY_METER[
