@@ -10,7 +10,7 @@ def main():
     if config.ENVIRONMENT == "production":
         skate.connect_wii()
         # Wiimote checker thread
-        checker = skateboard.SkateboardWatcher(configuration="production")
+        checker = skateboard.SkateboardWatcher()
         checker.daemon = True
         checker.start()
     try:
