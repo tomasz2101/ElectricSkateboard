@@ -5,3 +5,4 @@ bluetooth = Bluetooth()
 bluetooth.scan()
 devices = bluetooth.get_available_devices()
 pprint(devices)
+# A8:5C:2C:4F:EB:74
