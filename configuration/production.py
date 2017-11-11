@@ -54,7 +54,7 @@ WII_REMOTE = {
 }
 
 BATTERY_METER = {
-    "status": False,
+    "status": True,
     "reference_voltage": 4.38,
     "max_value": 255,
     "modules": {

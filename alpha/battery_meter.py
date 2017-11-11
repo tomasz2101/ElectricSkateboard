@@ -25,7 +25,7 @@ try:
                     pinLabel = module_adc["pins"][pinNumber]
 
                     # pins.append()
-                    bus.write_byte(module_adc["address"], pinNumber)
+                    bus.write_byte(int(module_adc["address"], pinNumber))
                     value = bus.read_byte(
                         module_adc["address"]) * config.BATTERY_METER[
                                 "reference_voltage"] / float(
