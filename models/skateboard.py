@@ -10,9 +10,9 @@ stop_val = False
 class ClassSkateboard(object):
     def __init__(self, configuration):
         if configuration != "production":
-            import configuration.config_development as config
+            import configuration.development as config
         else:
-            import configuration.config_production as config
+            import configuration.production as config
             import pigpio
             import cwiid
             import models.lcd as lcd
@@ -189,7 +189,7 @@ class ClassSkateboard(object):
 
 
 class SkateboardWatcher(threading.Thread):
-    import configuration.config_production as config
+    import configuration.production as config
 
     ping_bluetooth = ["sudo",
                       "l2ping",

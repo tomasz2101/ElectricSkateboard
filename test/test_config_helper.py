@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-import configuration.config_production as config
+import configuration.production as config
 from pprint import pprint
 import pytest
 

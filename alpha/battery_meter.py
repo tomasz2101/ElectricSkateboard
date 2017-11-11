@@ -2,7 +2,7 @@ import smbus
 import time
 from time import gmtime, strftime
 from pprint import pprint
-import configuration.config_production as config
+import configuration.production as config
 
 # Connect Pi 3V3 - VCC, Ground - Ground, SDA - SDA, SCL - SCL.
 

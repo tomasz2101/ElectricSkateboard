@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-import configuration.config_production as config
+import configuration.production as config
 
 
 class ClassLed:

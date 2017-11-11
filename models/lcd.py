@@ -1,6 +1,6 @@
 import time
 import models.i2c as i2c
-import configuration.config_production as config
+import configuration.production as config
 
 # commands
 LCD_CLEARDISPLAY = 0x01

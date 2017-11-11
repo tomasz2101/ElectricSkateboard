@@ -2,7 +2,7 @@ from time import gmtime, strftime
 from pathlib import Path
 import RPi.GPIO as GPIO
 import subprocess
-import configuration.config_production as config
+import configuration.production as config
 
 file = Path("/home/pi/logs/start_up_" +
             strftime("%Y_%m_%d", gmtime()) + ".txt")

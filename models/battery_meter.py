@@ -1,7 +1,7 @@
 import time
 import models.i2c as i2c
 # import RPi.GPIO as GPIO
-import configuration.config_production as config
+import configuration.production as config
 
 
 class ClassBatteryMeter:
