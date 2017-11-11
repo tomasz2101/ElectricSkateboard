@@ -15,7 +15,7 @@ try:
             print("######################",
                   strftime("%Y-%m-%d %H:%M:%S", gmtime()),
                   "#####################")
-            for _, module_adc in config.BATTERY_METER["modules"]:
+            for _, module_adc in config.BATTERY_METER["modules"].items():
                 print("address %s" % str(format(module_adc["address"], "02x")))
                 pins = []
                 for pinLabel, pinNumber in module_adc["pins"]:
