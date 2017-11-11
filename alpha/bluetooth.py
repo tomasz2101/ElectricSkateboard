@@ -1,6 +1,7 @@
 from bluetool import Bluetooth
+from pprint import pprint
 
 bluetooth = Bluetooth()
 bluetooth.scan()
 devices = bluetooth.get_available_devices()
-print(devices)
+pprint(devices)
