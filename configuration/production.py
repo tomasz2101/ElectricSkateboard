@@ -59,7 +59,7 @@ BATTERY_METER = {
     "max_value": 255,
     "modules": {
         0: {
-            "address": 0x44,
+            "address": 0x48,
             "pins": {
                 "s1": 0,
                 "s2": 1,
@@ -68,7 +68,7 @@ BATTERY_METER = {
             }
         },
         1: {
-            "address": 0x45,
+            "address": 0x49,
             "pins": {
                 "s5": 0,
                 "s6": 1,
