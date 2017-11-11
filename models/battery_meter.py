@@ -1,36 +1,42 @@
+import threading
+import smbus
 import time
-import models.i2c as i2c
-# import RPi.GPIO as GPIO
+from time import gmtime, strftime
+from pprint import pprint
 import configuration.production as config
 
 
-class ClassBatteryMeter:
-    def __init__(self):
-        self.adc_converters = {}
-        self.ref_voltage = \
-            config.BATTERY_METER["reference_voltage"]
-        self.max_value = config.BATTERY_METER["max_value"]
+class BatteryWatcher(threading.Thread):
+    def run(self):
+        print('testing connection')
+        while True:
+            self.check_battery()
+            time.sleep(1)
 
-        for i in range(len(config.BATTERY_METER["modules"])):
-            address = config.BATTERY_METER["modules"][i]["address"]
-            self.adc_converters[i] = i2c.ClassI2cDevice(address)
-            self.adc_converters[i].check_connection()
+    def check_battery(self):
+        try:
+            pprint(config.BATTERY_METER)
+            if config.BATTERY_METER["status"]:
+                bus = smbus.SMBus(config.BUS_VERSION)
+                print("######################",
+                      strftime("%Y-%m-%d %H:%M:%S", gmtime()),
+                      "#####################")
+                for _, module_adc in config.BATTERY_METER["modules"].items():
+                    print("address %s" % str(
+                        format(module_adc["address"], "02x")))
+                    for pinNumber, pinLabel in module_adc["pins"].items():
+                        bus.write_byte(module_adc["address"],
+                                       int(pinNumber))
+                        value = bus.read_byte(
+                            module_adc["address"]) * config.BATTERY_METER[
+                                    "reference_voltage"] / float(
+                            config.BATTERY_METER["max_value"])
+                        print("pin %s" % pinLabel, " => %f" % value)
+                print(
+                    "###################    KONIEC   #################")
 
-    def read_battery_voltage(self):
-        pins = {}
-        pins.summary = 0
-        for i in range(len(self.adc_converters)):
-            pins = len(config.BATTERY_METER["modules"][i]["pins"])
-            for j in range(pins):
-                pin = config.BATTERY_METER["modules"][i]["pins"][j]
-                pin_voltage = self.read_cell_voltage(pin)
-                pins[j] = pin_voltage
-                pins.summary += pin_voltage
-                time.sleep(0.04)
-        return pins
+        except RuntimeError:
+            print("Error battery module")
 
-        # def read_cell_voltage(self, pin_number):
-        # self.adc_converters[i].write_cmd(pin_number)
-        # voltage = bus.read_cmd() * self.ref_voltage / float(self.max_value)
 
-        # return True
+pass

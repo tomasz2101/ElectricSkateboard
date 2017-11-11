@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import models.skateboard as skateboard
+import models.battery_meter as battery_meter
 import configuration.production as config
 from pprint import pprint
 
@@ -13,6 +14,9 @@ def main():
         checker = skateboard.SkateboardWatcher()
         checker.daemon = True
         checker.start()
+        battery = battery_meter.BatteryWatcher()
+        battery.daemon = True
+        battery.start()
     try:
         if config.ENVIRONMENT == "production":
             skate.read_wii_buttons()
